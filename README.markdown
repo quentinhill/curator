@@ -46,7 +46,7 @@ Do feel free to use Curator, if you wish. I would be honored. But for now, I wou
 
 ## License ##
 
-This software package by Quentin Hill is licensed under a [Creative Commons Attribution 3.0 Unported License].
+This software package by Quentin Hill is licensed under a [Creative Commons Attribution 3.0 Unported License][13].
 
 Permissions beyond the scope of this license may be available at [quentinhill.github.com/curator][14].
 
