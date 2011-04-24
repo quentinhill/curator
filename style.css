@@ -1,0 +1,205 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0b2 | 201101
+   NOTE: THIS IS A BETA VERSION (see previous line)
+   USE WITH CAUTION AND TEST WITH ABANDON */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body {
+	color: #333;
+	background: #fefefe;
+	
+	margin: 3em auto;
+	width: 850px;
+	
+	font-size: 14pt;
+	font-family: 'caslon', georgia, serif;
+}
+
+a:link, a:visited {
+	color: #78b7c9;
+	background: transparent;
+	
+	text-decoration: none;
+}
+
+a:hover {
+	color: #4d84b4;
+	background: transparent;
+	
+	text-decoration: underline;
+}
+
+a:active {
+	color: #f04840;
+	background: transparent;
+	
+	text-align: underline;
+}
+
+code {
+	font-size: 13pt;
+	font-family: menlo, monospace;
+	line-height: 1.3em;
+}
+
+body > header {
+	text-align: center;
+}
+
+body > header h1 {
+	font-size: 130pt;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+body > header h1 a:link {
+	color: #333;
+	background: transparent;
+	
+	text-decoration: none;
+}
+
+body > header p {
+	color: #777;
+	background: transparent;
+	
+	margin-top: .5em;
+	font-size: 26pt;
+}
+
+body > article {
+	margin: 4em 0;
+}
+
+body > article section {
+	margin: 3em 0;
+}
+
+body > article section:first-child {
+	margin-top: 0;
+}
+
+body > article section:last-child {
+	margin-bottom: 0;
+}
+
+body > article section header {
+	margin-bottom: 1em;
+}
+
+body > article section header h1 {
+	font-size: 32pt;
+	font-family: 'helvetica neue', helvetica, 'lucida grande', verdana, sans-serif;
+	line-height: 1;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+body > article section p {
+	margin: .5em 0 1em 0;
+	line-height: 1.3em;
+}
+
+body > article section p:first-child {
+	margin-top: 0;
+}
+
+body > article section p:last-child {
+	margin-bottom: 0;
+}
+
+body > article section ul {
+	list-style: circle;
+	margin-left: 2em;
+}
+
+body > article section ul li {
+	
+	margin-top: .25em;
+	margin-bottom: .5em;
+}
+
+body > article section ul li p {
+	line-height: 1.3em;
+}
+
+body > article section ul li span {
+	font-size: 10pt;
+	font-family: 'helvetica neue', helvetica, 'lucida grande', verdana, sans-serif;
+}
+
+body > article section pre {
+	color: #a8c662;
+	background: #333;
+	
+	padding: .75em 1.25em;
+	
+	margin: 1em 0;
+	
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+}
+
+body > footer {
+	margin-top: 1em;
+}
+
+body > footer p {
+	color: #777;
+	background: transparent;
+	
+	font-size: 10pt;
+	font-family: 'helvetica neue', helvetica, 'lucida grande', verdana, sans-serif;
+	text-align: center;
+}
+
+.fork {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: 0;
+}
