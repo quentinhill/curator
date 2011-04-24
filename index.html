@@ -1,77 +1,268 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset='utf-8'>
-
-  <title>quentinhill/curator @ GitHub</title>
-
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #fff;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #000000; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #000000; }
-    h3 { text-align: center; color: #000000; }
-    a { color: #000000; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
+	<meta charset="utf-8">
+	
+	<title>Curator @ GitHub</title>
+	
+	<style type="text/css">
+	/* http://meyerweb.com/eric/tools/css/reset/ 
+	   v2.0b2 | 201101
+	   NOTE: THIS IS A BETA VERSION (see previous line)
+	   USE WITH CAUTION AND TEST WITH ABANDON */
+	
+	html, body, div, span, applet, object, iframe,
+	h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+	a, abbr, acronym, address, big, cite, code,
+	del, dfn, em, img, ins, kbd, q, s, samp,
+	small, strike, strong, sub, sup, tt, var,
+	b, u, i, center,
+	dl, dt, dd, ol, ul, li,
+	fieldset, form, label, legend,
+	table, caption, tbody, tfoot, thead, tr, th, td,
+	article, aside, canvas, details, embed, 
+	figure, figcaption, footer, header, hgroup, 
+	menu, nav, output, ruby, section, summary,
+	time, mark, audio, video {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline;
+	}
+	/* HTML5 display-role reset for older browsers */
+	article, aside, details, figcaption, figure, 
+	footer, header, hgroup, menu, nav, section {
+		display: block;
+	}
+	body {
+		line-height: 1;
+	}
+	ol, ul {
+		list-style: none;
+	}
+	blockquote, q {
+		quotes: none;
+	}
+	blockquote:before, blockquote:after,
+	q:before, q:after {
+		content: '';
+		content: none;
+	}
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+	
+	body {
+		color: #333;
+		background: #fefefe;
+		
+		margin: 1em auto;
+		width: 900px;
+		
+		font-size: 14pt;
+		font-family: 'caslon', georgia, serif;
+		line-height: 1.3em;
+	}
+	
+	a:link, a:visited {
+		color: #78b7c9;
+		background: transparent;
+		
+		text-decoration: none;
+	}
+	
+	a:hover {
+		color: #4d84b4;
+		background: transparent;
+		
+		text-decoration: underline;
+	}
+	
+	a:active {
+		color: #f04840;
+		background: transparent;
+		
+		text-align: underline;
+	}
+	
+	body > article {
+		clear: both;
+	}
+	
+	h1 {
+		font-size: 32pt;
+		font-family: 'helvetica neue', helvetica, 'lucida grande', verdana, sans-serif;
+		line-height: 1;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+	
+	body > header {
+		text-align: center;
+	}
+	
+	body > header h1 {
+		font-size: 130pt;
+		text-transform: uppercase;
+	}
+	
+	body > header h1 a:link {
+		color: #333;
+		background: transparent;
+		
+		text-decoration: none;
+	}
+	
+	body > header p {
+		color: #777;
+		background: transparent;
+		
+		margin-top: .25em;
+		font-size: 26pt;
+	}
+	
+	body > header p a {
+		color: #ccc;
+		background: transparent;
+		
+		text-decoration: none;
+	}
+	
+	body > article {
+		margin: 4em 0;
+	}
+	
+	body > article section {
+		margin:  4em 0;
+	}
+	
+	body > article section:first-child {
+		margin-top: 0;
+	}
+	
+	body > article section:last-child {
+		margin-bottom: 0;
+	}
+	
+	body > article section > header {
+		margin-bottom: 1em;
+	}
+	
+	body > article section p {
+		margin: .5em 0 1em 0;
+	}
+	
+	body > article section ul {
+		list-style: circle;
+		margin-left: 2em;
+	}
+	
+	body > article section ul li span {
+		font-size: 10pt;
+		font-family: 'helvetica neue', helvetica, 'lucida grande', verdana, sans-serif;
+	}
+	
+	body > article section pre {
+		color: #a8c662;
+		background: #333;
+		
+		padding: .75em 1.25em;
+		
+		margin: 1em 0;
+		
+		font-size: 13pt;
+		font-family: menlo, monospace;
+		
+		-moz-border-radius: 15px;
+		-webkit-border-radius: 15px;
+		border-radius: 15px;
+	}
+	
+	body > footer {
+		padding-top: 1em;
+		
+		border-top: solid 1px #ddd;
+	}
+	
+	body > footer p {
+		color: #777;
+		background: transparent;
+		font-size: 10pt;
+		font-family: 'helvetica neue', helvetica, 'lucida grande', verdana, sans-serif;
+	}
+	
+	.fork {
+		position: absolute;
+		top: 0;
+		right: 0;
+		border: 0;
+	}
+	</style>
 </head>
-
 <body>
-  <a href="http://github.com/quentinhill/curator"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-  <div id="container">
+<a href="http://github.com/quentinhill/curator"><img class="fork" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
-    <div class="download">
-      <a href="http://github.com/quentinhill/curator/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/quentinhill/curator/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="http://github.com/quentinhill/curator">curator</a>
-      <span class="small">by <a href="http://github.com/quentinhill">quentinhill</a></span></h1>
-
-    <div class="description">
-      A static website builder.
-    </div>
-
-    <h2>Authors</h2>
-<p>Quentin Hill (quentin@quentinhill.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Quentin Hill (quentin@quentinhill.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/quentinhill/curator/zipball/master">zip</a> or
-      <a href="http://github.com/quentinhill/curator/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/quentinhill/curator</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/quentinhill/curator">quentinhill/curator</a>
-    </div>
-
-  </div>
-
-  
+<header>
+	<h1><a href="http://github.com/quentinhill/curator">Curator</a></h1>
+	<p>by <a href="http://github.com/quentinhill">Quentin Hill</a></p>
+</header>
+<article>
+	<section>
+		<header>
+			<h1>Important Note</h1>
+		</header>
+		
+		<p>This is extremely early alpha-quality work. You have been warned.</p>
+	</section>
+	<section>
+		<header>
+			<h1>Description</h1>
+		</header>
+		
+		<p>Curator is a static website builder written in <a href="http://php.net/">PHP</a>.</p>
+		<p>Keep it simple.</p>
+		<p>Content is written in a combination of YAML and Markdown. Templates are created with [[INSERT_TEMPLATE_ENGINE_HERE]]. Styles and scripts are crafted in their native languages, then automatically joined and minified into a single files. Curator gathers this, and any other needed information, and builds a static website ready to deploy anywhere.</p>
+	</section>
+	<section>
+		<header>
+			<h1>Authors</h1>
+		</header>
+		
+		<ul>
+			<li>Quentin Hill<br><span><a href="mailto:quentin@quentinhill.com">quentin@quentinhill.com</a> / <a href="http://quentinhill.com/">quentinhill.com</a></span></li>
+		</ul>
+	</section>
+	<section>
+		<header>
+			<h1>Download</h1>
+		</header>
+		
+		<p>You can download this project in either <a href="http://github.com/quentinhill/curator/zipball/master">zip</a> or <a href="http://github.com/quentinhill/curator/tarball/master">tar</a> formats.</p>
+		<p>You can also clone the project with <a href="http://git-scm.com">Git</a> by running:</p>
+		
+		<pre>$ git clone git://github.com/quentinhill/curator</pre>
+	</section>
+	<section>
+		<header>
+			<h1>Inspiration</h1>
+		</header>
+		
+		<p>Curator is not the best solution out there. Seriously. This is just some random side project of mine. I can&#8217;t guarantee much of any kind of support for Curator. It&#8217;s me, not you.</p>
+		<p>Do feel free to use Curator, if you wish. I would be honored. But for now, I would have to recommend one of these many fine alternatives:</p>
+		<ul>
+			<li><a href="http://www.phrozn.info/">Phrozn</a>: Right about the time I decided to get serious with this project, Phrozn came out. And that’s the story of how this project was almost killed.</li>
+			<li><a href="http://www.cakephp.org/">CakePHP</a>: Real men use full featured MVC frameworks. Anything else might as well grab a corked fork, and head over to the kids table.</li>
+			<li><a href="http://camendesign.com/">camen design</a>: The biggest inspiration behind all of this. I clicked with his ideas, and figured I could take them to needless extremes.</li>
+			<li><a href="http://tinyurl.com/4xcu74h">Any other framework</a>.</li>
+		</ul>
+	</section>
+</article>
+<footer>
+	<p>Get the source code at <a href="http://github.com">github.com</a>/<a href="http://github.com/quentinhill/curator">quentinhill/curator</a></p>
+</footer>
 </body>
 </html>
