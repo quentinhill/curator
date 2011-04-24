@@ -9,6 +9,6 @@ if( !defined('ROOT_DIR') ) {
 	define('ROOT_DIR', dirname(dirname(__FILE__)));
 }
 
-if( !defined('CURATOR_DIR') ) {
-	define('CURATOR_DIR', ROOT_DIR.DS.'Curator');
-}
+require_once(ROOT_DIR.DS.'Curator'.DS.'bootstrap.php');
+
+Config::load();
