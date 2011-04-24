@@ -4,9 +4,12 @@
  * 
  * The bootstrap does the nitty gritty, bare-bones stuff. Without which, we are nothing.
  * 
- * @author Quentin Hill <quentin@quentinhill.com>
- * @package curator
- * @subpackage Curator
+ * @author       Quentin Hill <quentin@quentinhill.com>
+ * @copyright    Copyright © 2011 Quentin Hill. Some Rights Reserved.
+ * @link         http://quentinhill.github.com/curator
+ * @license      http://creativecommons.org/licenses/by-sa/3.0/
+ * @package      Curator
+ * @subpackage   Core
  */
 
 /**
