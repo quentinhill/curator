@@ -21,6 +21,26 @@
 class Curator extends Object
 {
 	/**
+	 * The root of the application directory.
+	 */
+	const AppRootDir       = 'AppRootDir';
+	
+	/**
+	 * The application bin directory.
+	 */
+	const AppBinDir        = 'AppBinDir';
+	
+	/**
+	 * The application Curator directory.
+	 */
+	const AppCuratorDir    = 'AppCuratorDir';
+	
+	/**
+	 * The application Curator/Library directory.
+	 */
+	const AppLibraryPath   = 'AppLibraryPath';
+	
+	/**
 	 * Number of arguments from the command line.
 	 * @access private
 	 */
@@ -39,12 +59,18 @@ class Curator extends Object
 	private static $instance;
 	
 	/**
+	 * Key directory paths.
+	 * @access private
+	 */
+	private static $paths;
+	
+	/**
 	 * There can be only one Curator.
 	 * 
 	 * @return Curator
 	 * @access public
 	 */
-	public static function singleton() 
+	public static function Singleton() 
 	{
 		if( !isset(self::$instance) ) {
 			$c = __CLASS__;
@@ -62,8 +88,13 @@ class Curator extends Object
 	 */
 	private function __construct()
 	{
-		$this->argc = $_SERVER['argc'];
-		$this->argv = $_SERVER['argv'];
+		$this->argc		= $_SERVER['argc'];
+		$this->argv		= $_SERVER['argv'];
+		$this->paths	= array();
+		
+		$this->paths[Curator::AppRootDir] = ROOT_DIR;
+		
+		$this->buildPaths();
 	}
 	
 	/**
@@ -82,8 +113,38 @@ class Curator extends Object
 	 * Gets Curator going on its way.
 	 * @access public
 	 */
-	public static function run()
+	public static function Run()
 	{
 		
+	}
+	
+	/**
+	 * Gets a path from the internal array.
+	 * @param identifier The identifier of the path you want.
+	 * @return string The requested path, or null on error.
+	 * @access public
+	 */
+	public static function GetPath($identifier = null)
+	{
+		if( $identifier === null ) {
+			$identifier = Curator::AppRootDir;
+		}
+		
+		if( isset(Curator::$paths[$identifier]) ) {
+			return Curator::$paths[$identifier];
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Builds the internal array of key directory paths.
+	 * @access private
+	 */
+	private function buildPaths()
+	{
+		$this->paths[Curator::AppBinDir]       = ROOT_DIR.DS.'bin';
+		$this->paths[Curator::AppCuratorDir]   = ROOT_DIR.DS.'Curator';
+		$this->paths[Curator::AppLibraryPath]  = $this->paths[Curator::AppCuratorDir].DS.'Library';
 	}
 }
