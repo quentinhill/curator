@@ -27,7 +27,7 @@ class Object
 	 * @return string The name of this class
 	 * @access public
 	 */
-	public function to_string()
+	public function ToString()
 	{
 		$class = get_class($this);
 		return $class;

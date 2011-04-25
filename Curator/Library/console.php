@@ -70,7 +70,7 @@ class Console extends Object
 	 * @return void
 	 * @access public
 	 */
-	public function clear()
+	public static function clear()
 	{
 		passthru('clear');
 	}
@@ -81,7 +81,7 @@ class Console extends Object
 	 * @return string The user's input.
 	 * @access public
 	 */
-	public function input($prompt)
+	public static function input($prompt)
 	{
 		$this->stdout($prompt."\n".'> ', false);
 		
@@ -103,7 +103,7 @@ class Console extends Object
 	 * @return void
 	 * @access public
 	 */
-	public function stdout($string, $newline = false)
+	public static function stdout($string, $newline = false)
 	{
 		if( $newline === false ) {
 			return fwrite(STDOUT, $string);
@@ -119,7 +119,7 @@ class Console extends Object
 	 * @return void
 	 * @access public
 	 */
-	public function stderr($string, $newline = false)
+	public static function stderr($string, $newline = false)
 	{
 		if( $newline === false ) {
 			return fwrite(STDERR, $string);
