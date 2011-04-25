@@ -76,6 +76,12 @@ class Curator extends Object
 	private $arguments;
 	
 	/**
+	 * Our working directory.
+	 * @access private
+	 */
+	private $pwd;
+	
+	/**
 	 * The singleton instance for the Curator.
 	 * @access private
 	 */
@@ -105,6 +111,7 @@ class Curator extends Object
 	 */
 	private function __construct()
 	{
+		$this->pwd			= $_SERVER['PWD'];
 		$this->argc			= $_SERVER['argc'];
 		$this->argv			= $_SERVER['argv'];
 		$this->paths		= array();
@@ -215,7 +222,7 @@ class Curator extends Object
 	}
 	
 	/**
-	 * Builds the internal array of key directory paths.
+	 * Returns the help message.
 	 * @access private
 	 */
 	private function Help()
