@@ -20,7 +20,10 @@
  */
 class Console extends Object
 {
-	// Hold an instance of the class
+	/**
+	 * The singleton instance for the Console.
+	 * @access private
+	 */
 	private static $instance;
 	
 	/**
