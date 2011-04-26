@@ -58,6 +58,10 @@ body {
 	font-family: 'caslon', georgia, serif;
 }
 
+b {
+	font-weight: bold;
+}
+
 a:link, a:visited {
 	color: #78b7c9;
 	background: transparent;
@@ -157,7 +161,6 @@ body > article section ul {
 }
 
 body > article section ul li {
-	
 	margin-top: .25em;
 	margin-bottom: .5em;
 }
@@ -167,8 +170,7 @@ body > article section ul li p {
 }
 
 body > article section ul li span {
-	font-size: 10pt;
-	font-family: 'helvetica neue', helvetica, 'lucida grande', verdana, sans-serif;
+	font-size: 90%;
 }
 
 body > article section pre {
