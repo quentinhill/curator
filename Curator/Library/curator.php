@@ -7,7 +7,7 @@
  * @author       Quentin Hill <quentin@quentinhill.com>
  * @copyright    Copyright © 2011 Quentin Hill. Some Rights Reserved.
  * @link         http://quentinhill.github.com/curator
- * @license      http://creativecommons.org/licenses/by-sa/3.0/
+ * @license      http://www.opensource.org/licenses/mit-license.php
  * @package      Curator
  * @subpackage   Library
  */
@@ -43,7 +43,7 @@ class Curator extends Object
 	/**
 	 * The application Curator/Library directory.
 	 */
-	private $AllowedCommands	= array('version', 'help');
+	private $AllowedCommands	= array('init', 'version', 'help');
 	
 	/**
 	 * Number of arguments from the command line.
@@ -145,6 +145,12 @@ class Curator extends Object
 		$self = Curator::Singleton();
 		
 		switch( $self->command ) {
+			case 'init':
+				$project = new Project;
+				
+				print_r($project);
+				break;
+				
 			case 'version':
 				Console::stdout('Curator v'.$self->Version(), true);
 				break;
