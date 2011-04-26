@@ -30,4 +30,4 @@ if( !defined('ROOT_DIR') ) {
 // Load the bootstrap.
 require_once(ROOT_DIR.DS.'Curator'.DS.'bootstrap.php');
 
-Curator::run();
+Curator\Curator::run();

@@ -12,6 +12,8 @@
  * @subpackage   Library
  */
 
+namespace Curator;
+
 /**
  * Object class.
  *

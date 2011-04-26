@@ -12,6 +12,8 @@
  * @subpackage   Core
  */
 
+namespace Curator;
+
 /**
  * Special autoload callback function. Allows us to skip most uses of include/require/etc..
  * 
@@ -20,7 +22,10 @@
  */
 function curator_autoload($class_name)
 {
-	$class_file_name = strtolower($class_name).'.php';
+	$class_parts = explode('\\', $class_name);
+	
+	$class_file_name = array_pop($class_parts);
+	$class_file_name = strtolower($class_file_name).'.php';
 	
 	if( file_exists(ROOT_DIR.DS.'Curator'.DS.'Library'.DS.$class_file_name) === true ) {
 		require_once(ROOT_DIR.DS.'Curator'.DS.'Library'.DS.$class_file_name);
@@ -29,4 +34,4 @@ function curator_autoload($class_name)
 }
 
 // register our callback
-spl_autoload_register('curator_autoload');
+spl_autoload_register('Curator\curator_autoload');
