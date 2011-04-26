@@ -26,9 +26,8 @@ Curator was created as a solution to maintaining my personal website. It is unle
 
 Want to shop around a little more? Check out the following:
 
-* [Phrozn][phrozn]: Right about the time I decided to get serious with this project, Phrozn came out. And that’s the story of how this project was almost killed.
-* [CakePHP][cakephp]: Real men use full featured MVC frameworks. Anything else might as well grab a corked fork, and head over to the kids table.
-* [camen design][camendesign]: The biggest inspiration behind all of this. I clicked with his ideas, and figured I could take them to needless extremes.
+* [Phrozn][phrozn]: An amazing PHP-based site generator.
+* [CakePHP][cakephp]: The opposite of a static site is a fully dynamic one.
 
 
 ## Authors ##
@@ -42,8 +41,8 @@ Please see the file LICENSE.
 
 
 
+
 [cakephp]:http://cakephp.org
-[camendesign]:http://camendesign.com
 [curator-github]:http://github.com/quentinhill/curator
 [curator-website]:http://quentinhill.github.com/curator
 [git]:http://git-scm.com
