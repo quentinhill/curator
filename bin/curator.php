@@ -30,4 +30,8 @@ if( !defined('ROOT_DIR') ) {
 // Load the bootstrap.
 require_once(ROOT_DIR.DS.'Curator'.DS.'bootstrap.php');
 
-Curator\Curator::run();
+try {
+	Curator\Curator::run();
+} catch( Exception $e ) {
+	Console::stderr('Exception ['.$e->getFile().':'.$e->getLine().']('.$e->getCode().'): '.$e->getMessage(), true);
+}

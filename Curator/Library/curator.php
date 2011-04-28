@@ -188,7 +188,7 @@ class Curator extends Object
 	 */
 	private function parseArguments()
 	{
-		if( $this->argc === 1 ) {
+		if( ($this->argc === 1) || ($this->argc > 2) ) {
 			Console::stdout('Please type \'curator help\' for usage.', true);
 			exit();
 		}
