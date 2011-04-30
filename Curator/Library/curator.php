@@ -43,39 +43,10 @@ class Curator extends Object
 	const AppLibraryPath	= 'AppLibraryPath';
 	
 	/**
-	 * The application Curator/Library directory.
-	 */
-	private $AllowedCommands	= array('init', 'version', 'help');
-	
-	/**
-	 * Number of arguments from the command line.
-	 * @access private
-	 */
-	private $argc;
-	
-	/**
-	 * The arguments from the command line.
-	 * @access private
-	 */
-	private $argv;
-	
-	/**
 	 * Key directory paths.
 	 * @access private
 	 */
 	private $paths;
-	
-	/**
-	 * Current command.
-	 * @access private
-	 */
-	private $command;
-	
-	/**
-	 * Parsed arguments.
-	 * @access private
-	 */
-	private $arguments;
 	
 	/**
 	 * Our working directory.
@@ -106,6 +77,22 @@ class Curator extends Object
 	}
 	
 	/**
+	 * Normalizes a path supplied to it. Strips any trailing '/'s and runs it through realpath().
+	 * 
+	 * @param string The path to normalize.
+	 * @return string The normalized path.
+	 * @access private
+	 */
+	public static function NormalizePath($path)
+	{
+		$path = rtrim($path, '/');
+		
+		$path = realpath($path);
+		
+		return $path;
+	}
+	
+	/**
 	 * A private constructor; prevents direct creation of object
 	 * 
 	 * @return Curator
@@ -114,16 +101,11 @@ class Curator extends Object
 	private function __construct()
 	{
 		$this->pwd			= $_SERVER['PWD'];
-		$this->argc			= $_SERVER['argc'];
-		$this->argv			= $_SERVER['argv'];
 		$this->paths		= array();
-		$this->command		= '';
-		$this->arguments	= array();
 		
 		$this->paths[Curator::AppRootDir] = ROOT_DIR;
 		
 		$this->buildPaths();
-		$this->parseArguments();
 	}
 	
 	/**
@@ -146,21 +128,88 @@ class Curator extends Object
 	{
 		$self = Curator::Singleton();
 		
-		switch( $self->command ) {
-			case 'init':
-				$project = new Project;
-				
-				print_r($project);
-				break;
-				
-			case 'version':
-				Console::stdout('Curator v'.$self->Version(), true);
-				break;
+		$parser = new \Console_CommandLine();
+		
+		$parser->name = 'curator';
+		$parser->description = 'Curator creates static websites.';
+		$parser->version = CURATOR_VERSION;
+		$parser->addBuiltinOptions();
+		
+		$parser->addOption('quiet', array(
+			'short_name' => '-q',
+			'long_name' => '--quiet',
+			'action' => 'StoreTrue',
+			'description' => 'produce no output, except for warnings and errors',
+			'optional' => true,
+		));
+		
+		$cmd = $parser->addCommand('init', array(
+			'description' => 'create a new project',
+		));
+		
+		$cmd->addCommand('directory', array(
+			'optional' => true,
+			'action' => 'StoreString',
+			'description' => 'create the project in the directory specified',
+		));
+		
+		$parser->addCommand('update', array(
+			'description' => 'build any changed files',
+		));
+		
+		$parser->addCommand('clean', array(
+			'description' => 'clean the current project',
+		));
+		
+		$parser->addCommand('build', array(
+			'description' => 'a combination of \'clean\' and \'update\'',
+		));
+		
+		try {
+			$result = $parser->parse();
 			
-			case 'help':
-				Console::stdout($self->Help(), true);
-				break;
+			switch( $result->command_name ) {
+				case 'init':
+					Console::stdout('creating new project');
+					$self->NewProject();
+					break;
+				
+				case 'update':
+					Console::stdout('updating project');
+					$self->UpdateProject();
+					break;
+				
+				case 'clean':
+					Console::stdout('cleaning project');
+					$self->CleanProject();
+					break;
+				
+				case 'build':
+					$self->clean();
+					$self->UpdateProject();
+					break;
+				
+				default:
+					break;
+			}
+		} catch( \Exception $e ) {
+			$parser->displayError($e->getMessage());
 		}
+	}
+	
+	private function NewProject()
+	{
+		
+	}
+	
+	private function UpdateProject()
+	{
+		
+	}
+	
+	private function CleanProject()
+	{
+		
 	}
 	
 	/**
@@ -183,33 +232,6 @@ class Curator extends Object
 	}
 	
 	/**
-	 * Basic argument parsing.
-	 * @access private
-	 */
-	private function parseArguments()
-	{
-		if( ($this->argc === 1) || ($this->argc > 2) ) {
-			Console::stdout('Please type \'curator help\' for usage.', true);
-			exit();
-		}
-		
-		$args = $this->argv;
-		
-		array_shift($args); // script name
-		$this->command = $args[0];
-		
-		array_shift($args); // command name
-		
-		if( in_array($this->command, $this->AllowedCommands) === false ) {
-			Console::stdout('Unknown command \''.$this->command.'\'.', true);
-			Console::stdout('Please type \'curator help\' for usage.', true);
-			exit();
-		}
-		
-		$this->arguments = $args;
-	}
-	
-	/**
 	 * Builds the internal array of key directory paths.
 	 * @access private
 	 */
@@ -218,42 +240,5 @@ class Curator extends Object
 		$this->paths[Curator::AppBinDir]       = ROOT_DIR.DS.'bin';
 		$this->paths[Curator::AppCuratorDir]   = ROOT_DIR.DS.'Curator';
 		$this->paths[Curator::AppLibraryPath]  = $this->paths[Curator::AppCuratorDir].DS.'Library';
-	}
-	
-	/**
-	 * Returns the current version of Curator.
-	 * @access private
-	 */
-	private function Version()
-	{
-		return '0.1 α';
-	}
-	
-	/**
-	 * Returns the help message.
-	 * @access private
-	 */
-	private function Help()
-	{
-		$help = <<<HELP
-Usage: curator [COMMAND]
-Curator creates static websites.
-
-Examples:
-  curator help     # Displays help information
-
-Main commands:
-
-  
-
-Other commands:
-
- version           Prints version information.
- help              Prints this help screen.
-
-Report bugs to quentin@quentinhill.com
-HELP;
-		
-		return $help;
 	}
 }

@@ -30,8 +30,12 @@ if( !defined('ROOT_DIR') ) {
 // Load the bootstrap.
 require_once(ROOT_DIR.DS.'Curator'.DS.'bootstrap.php');
 
+$curator = Curator\Curator::Singleton();
+
 try {
-	Curator\Curator::run();
-} catch( Exception $e ) {
-	Console::stderr('Exception ['.$e->getFile().':'.$e->getLine().']('.$e->getCode().'): '.$e->getMessage(), true);
+	$curator->run();
+} catch( Curator\CommandLineArgument $e ) {
+	Curator\Console::stderr($e->getMessage(), true);
+} catch( \Exception $e ) {
+	Curator\Console::stderr('Exception ['.$e->getFile().':'.$e->getLine().']('.$e->getCode().'): '.$e->getMessage(), true);
 }

@@ -14,6 +14,13 @@
 
 namespace Curator;
 
+if( !defined('CURATOR_VERSION') ) {
+	define('CURATOR_VERSION', '0.1 α');
+}
+
+include_once('Library/exceptions.php');
+require_once('Console/CommandLine.php');
+
 /**
  * Special autoload callback function. Allows us to skip most uses of include/require/etc..
  * 

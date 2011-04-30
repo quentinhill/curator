@@ -87,9 +87,4 @@ class Project extends Object
 			return Project::FindProjectDirectory(dirname($path));
 		}
 	}
-	
-	public static function InitializeNewProject($path)
-	{
-		
-	}
 }

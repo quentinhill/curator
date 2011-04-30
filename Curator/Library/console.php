@@ -105,7 +105,7 @@ class Console extends Object
 	 * @return void
 	 * @access public
 	 */
-	public static function stdout($string, $newline = false)
+	public static function stdout($string, $newline = true)
 	{
 		if( $newline === false ) {
 			return fwrite(STDOUT, $string);
