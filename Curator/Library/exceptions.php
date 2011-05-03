@@ -14,21 +14,3 @@
 
 namespace Curator;
 
-class CommandLineArgument extends \Exception {}
-
-class BadCommandLineArgumentCountException extends CommandLineArgument {}
-
-class BadCommandLineArgumentException extends CommandLineArgument
-{
-	public $argument = '';
-	
-	public function __construct($argument, $message)
-	{
-		$new_message = 'Unknown command \''.$argument.'\''."\n".$message;
-		
-		parent::__construct($new_message);
-		
-		$this->argument = $argument;
-		
-	}
-}

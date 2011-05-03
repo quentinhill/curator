@@ -1,0 +1,5 @@
+site_title: 'Quentin Hill, Inc'
+site_host: 'quentinhill.com'
+style_order: ['reset.css', 'screen.css', 'print.css', 'mobile.css']
+script_order: ~
+preencode: true

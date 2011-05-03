@@ -42,6 +42,8 @@ class Curator extends Object
 	 */
 	const AppLibraryPath	= 'AppLibraryPath';
 	
+	const AppSkeletonPath	= 'AppSkeletonPath';
+	
 	/**
 	 * Key directory paths.
 	 * @access private
@@ -74,22 +76,6 @@ class Curator extends Object
 		}
 		
 		return self::$instance;
-	}
-	
-	/**
-	 * Normalizes a path supplied to it. Strips any trailing '/'s and runs it through realpath().
-	 * 
-	 * @param string The path to normalize.
-	 * @return string The normalized path.
-	 * @access private
-	 */
-	public static function NormalizePath($path)
-	{
-		$path = rtrim($path, '/');
-		
-		$path = realpath($path);
-		
-		return $path;
 	}
 	
 	/**
@@ -170,17 +156,17 @@ class Curator extends Object
 			
 			switch( $result->command_name ) {
 				case 'init':
-					Console::stdout('creating new project');
+					Console::stdout('Initializing new project');
 					$self->NewProject();
 					break;
 				
 				case 'update':
-					Console::stdout('updating project');
+					Console::stdout('Updating project');
 					$self->UpdateProject();
 					break;
 				
 				case 'clean':
-					Console::stdout('cleaning project');
+					Console::stdout('Cleaning project');
 					$self->CleanProject();
 					break;
 				
@@ -190,6 +176,7 @@ class Curator extends Object
 					break;
 				
 				default:
+					Console::stderr('Hello, Dave.', true);
 					break;
 			}
 		} catch( \Exception $e ) {
@@ -199,7 +186,14 @@ class Curator extends Object
 	
 	private function NewProject()
 	{
+		$project_dir = $this->pwd.DS.'.curator';
 		
+		Console::stdout('Project: '.$project_dir.DS);
+		Console::stdout('');
+		
+		$skel = new Skeleton(Curator::GetPath(Curator::AppSkeletonPath));
+		
+		$skel->CopyToPath($project_dir);
 	}
 	
 	private function UpdateProject()
@@ -237,8 +231,9 @@ class Curator extends Object
 	 */
 	private function buildPaths()
 	{
-		$this->paths[Curator::AppBinDir]       = ROOT_DIR.DS.'bin';
-		$this->paths[Curator::AppCuratorDir]   = ROOT_DIR.DS.'Curator';
-		$this->paths[Curator::AppLibraryPath]  = $this->paths[Curator::AppCuratorDir].DS.'Library';
+		$this->paths[Curator::AppBinDir]		= ROOT_DIR.DS.'bin';
+		$this->paths[Curator::AppCuratorDir]	= ROOT_DIR.DS.'Curator';
+		$this->paths[Curator::AppLibraryPath]	= $this->paths[Curator::AppCuratorDir].DS.'Library';
+		$this->paths[Curator::AppSkeletonPath]	= $this->paths[Curator::AppCuratorDir].DS.'Skeleton';
 	}
 }
