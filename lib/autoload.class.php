@@ -75,9 +75,10 @@ class cAutoload
 	 */
 	private function __construct()
 	{
-		$this->setBaseDir(dirname(dirname(__FILE__)));
+		$this->setBaseDir(dirname(__FILE__));
 		
 		$this->addClassPathToRegistry('cAutoload', 'autoload.class.php');
+		$this->addClassPathToRegistry('cConsole', 'console.class.php');
 	}
 	
 	/**
@@ -99,10 +100,12 @@ class cAutoload
 	 */
 	public function setBaseDir($basedir)
 	{
-		$new_dir = realpath($basedir);
+		$basedir = realpath($basedir);
 		
-		if( is_string($basedir) && is_dir($new_dir) ) {
-			$this->baseDir = realpath($new_dir);
+		if( is_string($basedir) && is_dir($basedir) ) {
+			$this->baseDir = realpath($basedir);
+		} else {
+			throw new Exception('Invalid path give for autoload base directory: '.$basedir);
 		}
 	}
 	
@@ -164,7 +167,7 @@ class cAutoload
 	public function autoload($class)
 	{
 		if( $path = $this->getClassPathFromRegistry($class) ) {
-			require_once $path;
+			require_once $this->baseDir.DS.$path;
 			
 			return true;
 		}
@@ -182,10 +185,10 @@ class cAutoload
 	 */
 	public function addClassPathToRegistry($class, $path)
 	{
-		$new_class = strtolower(strval($class));
-		$new_path = realpath(strval($path));
+		$class = strval($class);
+		$path = strval($path);
 		
-		$this->classes[$new_class] = $new_path;
+		$this->classRegistry[$class] = $path;
 	}
 	
 	/**
@@ -197,11 +200,11 @@ class cAutoload
 	 */
 	public function removeClassPathFromRegistry($class)
 	{
-		$old_class = strtolower(strval($class));
+		$class = strval($class);
 		
-		if( isset($this->classes[$old_class]) ) {
-			$this->classes[$old_class] = null;
-			unset($this->classes[$old_class]);
+		if( isset($this->classRegistry[$class]) ) {
+			$this->classRegistry[$class] = null;
+			unset($this->classRegistry[$class]);
 		}
 	}
 	
@@ -213,12 +216,10 @@ class cAutoload
 	 */
 	public function getClassPathFromRegistry($class)
 	{
-		$class = strtolower($class);
-		
-		if( !isset($this->classes[$class]) ) {
+		if( !isset($this->classRegistry[$class]) ) {
 			return null;
 		}
 		
-		return $this->baseDir.DS.$this->classes[$class];
+		return $this->classRegistry[$class];
 	}
 }
