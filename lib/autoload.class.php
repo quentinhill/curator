@@ -79,6 +79,7 @@ class cAutoload
 		
 		$this->addClassPathToRegistry('cAutoload', 'autoload.class.php');
 		$this->addClassPathToRegistry('cConsole', 'console.class.php');
+		$this->addClassPathToRegistry('cApplication', 'application.class.php');
 	}
 	
 	/**

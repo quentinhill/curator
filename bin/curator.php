@@ -22,4 +22,4 @@ require_once realpath(dirname(__FILE__).DS.'..'.DS.'lib'.DS.'bootstrap.inc.php')
 $root_path = dirname(dirname(__FILE__));
 
 // Get her going.
-StartCurator($root_path);
+exit(StartCurator($root_path));

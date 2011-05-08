@@ -73,7 +73,7 @@ class cConsole
 	}
 	
 	/**
-	 * Placeholder private constructor to prevent unexpected creations.
+	 * Opens access to the standard IO streams.
 	 *
 	 * @return cConsole
 	 * @access private
