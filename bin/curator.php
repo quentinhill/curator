@@ -1,16 +1,11 @@
 #!/usr/bin/env php
 <?php
-/**
- * Curator, the Face.
- * 
- * Curator is our core front-end to the user.
- * 
- * @author       Quentin Hill <quentin@quentinhill.com>
- * @copyright    Copyright © 2011 Quentin Hill. Some Rights Reserved.
- * @link         http://quentinhill.github.com/curator
- * @license      http://www.opensource.org/licenses/mit-license.php
- * @package      Curator
- * @subpackage   bin
+/*
+ * This file is part of the Curator package.
+ * Copyright © 2011 Quentin Hill <quentin@quentinhill.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 /**
@@ -20,22 +15,11 @@ if( !defined('DS') ) {
 	define('DS', DIRECTORY_SEPARATOR);
 }
 
-/**
- * Defines the absolute path to the root of our project.
- */
-if( !defined('ROOT_DIR') ) {
-	define('ROOT_DIR', dirname(dirname(__FILE__)));
-}
+// Load our bootstrap file.
+require_once realpath(dirname(__FILE__).DS.'..'.DS.'lib'.DS.'bootstrap.inc.php');
 
-// Load the bootstrap.
-require_once(ROOT_DIR.DS.'Curator'.DS.'bootstrap.php');
+// Determine our root path
+$root_path = dirname(dirname(__FILE__));
 
-$curator = Curator\Curator::Singleton();
-
-try {
-	$curator->run();
-} catch( Curator\CommandLineArgument $e ) {
-	Curator\Console::stderr($e->getMessage(), true);
-} catch( \Exception $e ) {
-	Curator\Console::stderr('Exception ['.$e->getFile().':'.$e->getLine().']('.$e->getCode().'): '.$e->getMessage(), true);
-}
+// Get her going.
+StartCurator($root_path);

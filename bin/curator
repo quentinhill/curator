@@ -1,15 +1,10 @@
 #!/bin/bash
 ##
- # curator, the Bouncer
+ # This file is part of the Curator package.
+ # Copyright © 2011 Quentin Hill <quentin@quentinhill.com>
  # 
- # curator is a shell script for running the curator.php script
- #
- # @author       Quentin Hill <quentin@quentinhill.com>
- # @copyright    Copyright © 2011 Quentin Hill. Some Rights Reserved.
- # @link         http://quentinhill.github.com/curator
- # @license      http://www.opensource.org/licenses/mit-license.php
- # @package      Curator
- # @subpackage   bin
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
  ##
 
 LIB=${0/%curator/}
