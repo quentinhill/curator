@@ -7,14 +7,16 @@
  * file that was distributed with this source code.
  */
 
+ namespace Curator;
+
 /**
- * cConsole class
+ * Console class
  * 
  * @package		curator
  * @subpackage	console
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class cConsole
+class Console
 {
 	/**
 	 * Singleton instance.
@@ -57,9 +59,9 @@ class cConsole
 	public $newline = "\n";
 	
 	/**
-	 * Returns the shared cConsole.
+	 * Returns the shared Console.
 	 *
-	 * @return cConsole
+	 * @return Console
 	 * @access public
 	 */
 	public static function singleton() 
@@ -75,7 +77,7 @@ class cConsole
 	/**
 	 * Opens access to the standard IO streams.
 	 *
-	 * @return cConsole
+	 * @return Console
 	 * @access private
 	 */
 	private function __construct() 
@@ -105,7 +107,7 @@ class cConsole
 	 */
 	public static function prompt($prompt, $options = null, $default = null)
 	{
-		$self = cConsole::singleton();
+		$self = Console::singleton();
 		$print_options = '';
 		
 		// build print options for display, if need be.
@@ -149,7 +151,7 @@ class cConsole
 	 */
 	public static function stdout($message, $newline = true)
 	{
-		$self = cConsole::singleton();
+		$self = Console::singleton();
 		
 		if( $newline ) {
 			$message = $message.$self->newline;
@@ -170,7 +172,7 @@ class cConsole
 	 */
 	public static function stderr($message, $newline = true)
 	{
-		$self = cConsole::singleton();
+		$self = Console::singleton();
 		
 		if( $newline ) {
 			$message = $message.$self->newline;

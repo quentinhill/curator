@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Curator;
+
 // Load our core files.
 require_once 'autoload.class.php';
 require_once 'console.class.php';
@@ -27,13 +29,13 @@ function StartCurator($root_dir)
 	// make sure this is only run once.
 	if( $did_start === false ) {
 		
-		$autoload = cAutoload::singleton();
+		$autoload = Autoload::singleton();
 		
 		// configure the autoloader.
 		try {
 			$autoload->setBaseDir($root_dir.DS.'lib');
 			$autoload->register();
-		} catch( Exception $e ) {
+		} catch( \Exception $e ) {
 			echo 'Could not register the autoloader: '.$e->getMessage()."\n";
 			die;
 		}
@@ -43,11 +45,11 @@ function StartCurator($root_dir)
 		
 		try {
 			
-			$app = new cApplication();
+			$app = new Application();
 			
 			$exit_status = $app->run();
 			
-		} catch( Exception $e ) {
+		} catch( \Exception $e ) {
 			echo $e->getMessage();
 			die;
 		}

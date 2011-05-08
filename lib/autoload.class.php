@@ -7,14 +7,16 @@
  * file that was distributed with this source code.
  */
 
+ namespace Curator;
+
 /**
- * cAutoload class
+ * Autoload class
  * 
  * @package		curator
  * @subpackage	autoload
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class cAutoload
+class Autoload
 {
 	/**
 	 * Singleton instance.
@@ -77,9 +79,9 @@ class cAutoload
 	{
 		$this->setBaseDir(dirname(__FILE__));
 		
-		$this->addClassPathToRegistry('cAutoload', 'autoload.class.php');
-		$this->addClassPathToRegistry('cConsole', 'console.class.php');
-		$this->addClassPathToRegistry('cApplication', 'application.class.php');
+		$this->addClassPathToRegistry('Curator\Autoload', 'autoload.class.php');
+		$this->addClassPathToRegistry('Curator\Console', 'console.class.php');
+		$this->addClassPathToRegistry('Curator\Application', 'application.class.php');
 	}
 	
 	/**
@@ -132,7 +134,7 @@ class cAutoload
 		ini_set('unserialize_callback_func', 'spl_autoload_call');
 		
 		if( !spl_autoload_register(array(self::singleton(), 'autoload')) ) {
-			throw new Exception('Unable to register cAutoload::autoload() as an autoloading method.');
+			throw new Exception('Unable to register Autoload::autoload() as an autoloading method.');
 		}
 		
 		self::$registeredCount++;

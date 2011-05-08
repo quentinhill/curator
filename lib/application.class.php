@@ -7,14 +7,16 @@
  * file that was distributed with this source code.
  */
 
+ namespace Curator;
+ 
 /**
- * cApplication class
+ * Application class
  * 
  * @package		curator
  * @subpackage	application
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class cApplication
+class Application
 {
 	/**
 	 * The argument count.
@@ -59,7 +61,7 @@ class cApplication
 	/**
 	 * Sets $argc and $argv from $_SERVER['argc'] and $_SERVER['argv'], respectively.
 	 * 
-	 * @return cApplication
+	 * @return Application
 	 * @access public
 	 */
 	public function __construct()
@@ -86,13 +88,14 @@ class cApplication
 		
 		// Curator doesn't do anything without at least one argument, besides the curator command itself.
 		if( $this->argc === 0 ) {
-			cConsole::stdout('Use \''.$this->cmd.' --help\' for usage information.');
+			Console::stdout('Use \''.$this->cmd.' --help\' for usage information.');
 		} else {
 			try {
 				$parser = $this->buildCommandLineParser();
 				
 				$result = $parser->parse();
 				
+				// determine where our relevant directories are.
 				$project_dir = realpath($result->options['proj_path']);
 				$output_dir = realpath($result->options['out_path']);
 				
@@ -103,6 +106,7 @@ class cApplication
 				if( empty($output_dir) ) {
 					$output_dir = $_SERVER['PWD'];
 				}
+				
 				
 				switch( $result->command_name ) {
 					case 'new':
@@ -118,7 +122,7 @@ class cApplication
 						break;
 				}
 				
-			} catch( Exception $e ) {
+			} catch( \Exception $e ) {
 				$parser->displayError($e->getMessage());
 				$exit_status = $e->getCode();
 			}
@@ -192,7 +196,7 @@ class cApplication
 	{
 		require_once 'Console/CommandLine.php';
 		
-		$parser = new Console_CommandLine(array(
+		$parser = new \Console_CommandLine(array(
 			'name'               => $this->cmd(),
 			'version'            => $this->getVersion(),
 			'description'        => $this->getDescription(),
