@@ -64,7 +64,7 @@ class cApplication
 	 */
 	public function __construct()
 	{
-		$this->argc = intval();
+		$this->argc = intval($_SERVER['argc']);
 		$this->argv = $_SERVER['argv'];
 		
 		$full_path = array_shift($this->argv);
@@ -117,8 +117,6 @@ class cApplication
 						
 						break;
 				}
-				
-				print_r($result);
 				
 			} catch( Exception $e ) {
 				$parser->displayError($e->getMessage());
