@@ -15,6 +15,13 @@ if( !defined('DS') ) {
 	define('DS', DIRECTORY_SEPARATOR);
 }
 
+/**
+ * Defines the full path to the root of the Curator installation.
+ */
+if( !defined('CURATOR_ROOT') ) {
+	define('CURATOR_ROOT', dirname(dirname(__FILE__)));
+}
+
 // Load our bootstrap file.
 require_once realpath(dirname(__FILE__).DS.'..'.DS.'lib'.DS.'bootstrap.inc.php');
 

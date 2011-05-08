@@ -96,8 +96,13 @@ class Application
 				$result = $parser->parse();
 				
 				// determine where our relevant directories are.
-				$project_dir = realpath($result->options['proj_path']);
-				$output_dir = realpath($result->options['out_path']);
+				if( !empty($result->options['proj_path']) ) {
+					$project_dir = realpath($result->options['proj_path']);
+				}
+				
+				if( !empty($result->options['out_path']) ) {
+					$output_dir = realpath($result->options['out_path']);
+				}
 				
 				if( empty($project_dir) ) {
 					$project_dir = $_SERVER['PWD'].DS.'.curator';
@@ -107,10 +112,14 @@ class Application
 					$output_dir = $_SERVER['PWD'];
 				}
 				
+				$this->createDirectoryAtPath($project_dir);
+				$this->createDirectoryAtPath($output_dir);
 				
 				switch( $result->command_name ) {
 					case 'new':
+						$project = new Project($project_dir, $output_dir);
 						
+						$project->install();
 						break;
 					
 					case 'clean':
@@ -239,6 +248,32 @@ class Application
 		));
 		
 		return $parser;
+	}
+	
+	/**
+	 * Creates the directory at a given path if it does not exist.
+	 * 
+	 * @param string $path The full path of the directory to create.
+	 * @return string The full path created, or null on error.
+	 * @access public
+	 */
+	public function createDirectoryAtPath($path)
+	{
+		if( is_dir($path) ) {
+			return $path;
+		}
+		
+		if( is_file($path) ) {
+			throw new \Exception('path exists as a file: '.$path);
+		}
+		
+		$status = mkdir($path, 0777, true);
+		
+		if( !$status ) {
+			throw new \Exception('could not create path: '.$path);
+		}
+		
+		return $path;
 	}
 }
 		
