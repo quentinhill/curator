@@ -71,7 +71,7 @@ class Project
 		touch($destination.DS.'manifest.yml');
 		copy($source.DS.'manifest.yml', $destination.DS.'manifest.yml');
 		
-		$folders = array('cache', 'pages', 'styles', 'scripts');
+		$folders = array('cache', 'data', 'meta', 'scripts', 'styles', 'templates');
 		
 		foreach( $folders as $folder_name ) {
 			$source_path = $source.DS.$folder_name;

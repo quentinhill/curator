@@ -1,0 +1,8 @@
+			<section>
+				<header>
+					<h1>%%__DATA_TITLE__%%</h1>
+					<p>%%__DATA_DATE__%%</p>
+				</header>
+				
+				%%__DATA_CONTENT__%%
+			</section>
