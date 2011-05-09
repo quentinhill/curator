@@ -1,0 +1,9 @@
+Application:
+	site_name: 'Skeleton Curator Project';
+	site_host: 'localhost';
+
+Styles:
+	- 'base.css'
+	- 'mobile.css'
+	- 'print.css'
+	- 'screen.css'
