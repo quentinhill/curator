@@ -27,14 +27,6 @@ class Project
 	private $projectDir = '';
 	
 	/**
-	 * Full path to the output directory.
-	 * 
-	 * @var string
-	 * @access private
-	 */
-	private $outputDir = '';
-	
-	/**
 	 * Class constructor.
 	 * 
 	 * @param string $project_dir The full path to the project directory
@@ -42,10 +34,9 @@ class Project
 	 * @return Project
 	 * @access public
 	 */
-	public function __construct($project_dir, $output_dir)
+	public function __construct($project_dir)
 	{
 		$this->projectDir = $project_dir;
-		$this->outputDir = $output_dir;
 	}
 	
 	/**
@@ -64,38 +55,26 @@ class Project
 			$destination = $this->projectDir;
 		}
 		
+		// remind us where we are dumping all this
 		Console::stdout('Project directory: '.$destination);
 		Console::stdout('');
 		
+		// copy the manifest first
 		Console::stdout('  Copying manifest.yml');
 		touch($destination.DS.'manifest.yml');
 		copy($source.DS.'manifest.yml', $destination.DS.'manifest.yml');
 		
-		$folders = array('cache', 'data', 'meta', 'scripts', 'styles', 'templates');
+		// The folders we care about
+		$folders = array('cache', 'data', 'media', 'meta', 'public_html', 'scripts', 'styles', 'templates');
 		
+		// create them in destination, and copy source's contents over.
 		foreach( $folders as $folder_name ) {
 			$source_path = $source.DS.$folder_name;
 			$dest_path = $destination.DS.$folder_name;
 			
-			if( !is_dir($dest_path) ) {
-				Console::stdout('  Creating '.$folder_name);
-				mkdir($dest_path, 0777, true);
-			}
+			Console::stdout('  Creating '.$folder_name);
 			
-			$directory = new \RecursiveDirectoryIterator($source_path);
-			$iterator = new \RecursiveIteratorIterator($directory, \RecursiveIteratorIterator::SELF_FIRST);
-			
-			foreach( $iterator as $item ) {
-				$file_name = $item->getFilename();
-				$source_file = $source_path.DS.$file_name;
-				$dest_file = $dest_path.DS.$file_name;
-				
-				touch($dest_file);
-				
-				Console::stdout('  Copying '.$folder_name.DS.$file_name);
-				
-				copy($source_file, $dest_file);
-			}
+			Filesystem::recursiveCopy($source_path, $dest_path);
 		}
 	}
 }

@@ -100,34 +100,29 @@ class Application
 					$project_dir = realpath($result->options['proj_path']);
 				}
 				
-				if( !empty($result->options['out_path']) ) {
-					$output_dir = realpath($result->options['out_path']);
-				}
-				
 				if( empty($project_dir) ) {
-					$project_dir = $_SERVER['PWD'].DS.'.curator';
-				}
-				
-				if( empty($output_dir) ) {
-					$output_dir = $_SERVER['PWD'];
+					$project_dir = $_SERVER['PWD'];
 				}
 				
 				$this->createDirectoryAtPath($project_dir);
-				$this->createDirectoryAtPath($output_dir);
 				
 				switch( $result->command_name ) {
 					case 'new':
-						$project = new Project($project_dir, $output_dir);
+						$project = new Project($project_dir);
 						
 						$project->install();
 						break;
 					
 					case 'clean':
+						$project = new Project($project_dir);
 						
+						$project->clean();
 						break;
 					
 					case 'build':
+						$project = new Project($project_dir);
 						
+						$project->build();
 						break;
 				}
 				
@@ -219,13 +214,6 @@ class Application
 			'long_name'   => '--project',
 			'action'      => 'StoreString',
 			'description' => 'path for the project directory to use',
-		));
-		
-		$parser->addOption('out_path', array(
-			'short_name'  => '-o',
-			'long_name'   => '--output',
-			'action'      => 'StoreString',
-			'description' => 'path for the output directory to use',
 		));
 		
 		$new_command = $parser->addCommand('new', array(
