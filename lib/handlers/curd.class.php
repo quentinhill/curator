@@ -10,13 +10,13 @@
  namespace Curator;
 
 /**
- * YamlHandler class
+ * CurdHandler class
  * 
  * @package		curator
  * @subpackage	handlers
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class YamlHandler implements Handler
+class CurdHandler implements Handler
 {
 	/**
      * Return the name of the Handler.
@@ -26,7 +26,7 @@ class YamlHandler implements Handler
      */
 	public static function getName()
 	{
-		return 'YamlHandler';
+		return 'CurdHandler';
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class YamlHandler implements Handler
      */
 	public static function getMediaType()
 	{
-		return 'text/yaml';
+		return 'text/curator-data';
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class YamlHandler implements Handler
      */
     public static function getExtensions()
 	{
-		return array('yml', 'yaml');
+		return array('curd');
 	}
 	
 	/**
@@ -61,9 +61,7 @@ class YamlHandler implements Handler
      */
 	public function handleData($data, $options = array())
 	{
-		include_once(CURATOR_THIRDPARTY_DIR.DS.'yaml'.DS.'lib'.DS.'sfYamlParser.php');
 		
-		$yaml = new \sfYamlParser();
 		$result = null;
 		
 		try {
@@ -72,21 +70,30 @@ class YamlHandler implements Handler
 				$data = file_get_contents($data);
 				
 				if( $data === false ) {
-					throw new \Exception('Could not load yaml: '.$data);
+					throw new \Exception('Could not load data: '.$data);
 				}
 			}
 			
-			$result = $yaml->parse($data);
+			$data_array = explode("\n\n---\n\n", $data, 2);
 			
-		} catch( \InvalidArgumentException $e ) {
+			$header_handler = HandlerFactory::createHandlerFor(YamlHandler::getMediaType());
 			
-			Console::stderr('** Unable to parse the YAML string:');
-			Console::stderr('   '.$e->getMessage());
+			$header_data = $header_handler->handleData($data_array[0]);
+			
+			$body_format = $header_data['format'];
+			
+			$body_handler = HandlerFactory::createHandlerFor($body_format);
+			
+			$body_data = $body_handler->handleData($data_array[1]);
+			
+			$result = array();
+			$result['header'] = $header_data;
+			$result['body'] = $body_data;
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not handle YAML data:');
-			Console::stderr('  '.$e->getMessage());
+			Console::stderr('** Could not handle curd data:');
+			Console::stderr('   '.$e->getMessage());
 			
 		}
 		
