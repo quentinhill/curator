@@ -84,6 +84,8 @@ class Autoload
 		$this->addClassPathToRegistry('Curator\Autoload',		'autoload.class.php');
 		$this->addClassPathToRegistry('Curator\Console',		'console.class.php');
 		$this->addClassPathToRegistry('Curator\Filesystem',		'filesystem.class.php');
+		$this->addClassPathToRegistry('Curator\Handler',		'handler.interface.php');
+		$this->addClassPathToRegistry('Curator\HandlerFactory',	'handlerfactory.class.php');
 		$this->addClassPathToRegistry('Curator\Project',		'project.class.php');
 	}
 	
