@@ -41,6 +41,18 @@ class YamlHandler implements Handler
 	}
 	
 	/**
+     * Return the file extensions of the Handler.
+     *
+     * @return array
+	 * @access public
+	 * @static
+     */
+    public static function getExtensions()
+	{
+		return array('yml', 'yaml');
+	}
+	
+	/**
      * Handle $data, and return the results.
      *
      * @param string data The data to handle.

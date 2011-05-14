@@ -48,13 +48,36 @@ class HandlerFactory
 	}
 	
 	/**
+	 * Returns the appropriate media type for a file extension, according to the handlers.
+	 * 
+	 * @param string $extension The file extension.
+	 * @return string The appropriate media type.
+	 * @access public
+	 */
+	public static function getMediaTypeForFileExtension($extension)
+	{
+		$registry = HandlerFactory::loadHandlers();
+		$handler = null;
+		$media_type = null;
+		
+		foreach( $registry as $handler ) {
+			if( isset($handler['extensions'][$extension]) ) {
+				$media_type = $handler['media_type'];
+				break;
+			}
+		}
+		
+		return $media_type;
+	}
+	
+	/**
 	 * Creates the proper Handler object for the specified media type.
 	 * 
 	 * @param string $media_type The media type.
 	 * @returns object The object for the media type.
 	 * @access public
 	 */
-	public function createHandlerFor($media_type)
+	public static function createHandlerFor($media_type)
 	{
 		$object = null;
 		$registry = HandlerFactory::loadHandlers();
@@ -77,7 +100,7 @@ class HandlerFactory
 	 * @return array The loaded handlers.
 	 * @access public
 	 */
-	public function loadHandlers()
+	public static function loadHandlers()
 	{
 		if( HandlerFactory::$registry === null ) {
 			$registry = array();
@@ -95,8 +118,14 @@ class HandlerFactory
 				
 				$handler_name = $class_name::getName();
 				$handler_media = $class_name::getMediaType();
+				$handler_extensions = $class_name::getExtensions();
 				
-				$registry[$handler_media] = array('name' => $handler_name, 'class' => $class_name);
+				$registry[$handler_media] = array(
+					'name' => $handler_name,
+					'media_type' => $handler_media,
+					'class' => $class_name,
+					'extensions' => $handler_extensions,
+				);
 			}
 		}
 		

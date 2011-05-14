@@ -37,6 +37,15 @@ interface Handler
 	public static function getMediaType();
 	
 	/**
+     * Return the file extensions of the Handler.
+     *
+     * @return array
+	 * @access public
+	 * @static
+     */
+	public static function getExtensions();
+	
+	/**
      * Handle $data, and return the results.
      *
      * @param string data The data to handle.
