@@ -18,15 +18,26 @@ if( !defined('DS') ) {
 /**
  * Defines the full path to the root of the Curator installation.
  */
-if( !defined('CURATOR_ROOT') ) {
-	define('CURATOR_ROOT', dirname(dirname(__FILE__)));
+if( !defined('CURATOR_ROOT_DIR') ) {
+	define('CURATOR_ROOT_DIR', dirname(dirname(__FILE__)));
+}
+
+/**
+ * Defines the full path to the lib dir of the Curator installation.
+ */
+if( !defined('CURATOR_LIB_DIR') ) {
+	define('CURATOR_LIB_DIR', CURATOR_ROOT_DIR.DS.'lib');
+}
+
+/**
+ * Defines the full path to the skeleton dir of the Curator installation.
+ */
+if( !defined('CURATOR_SKELETON_DIR') ) {
+	define('CURATOR_SKELETON_DIR', CURATOR_ROOT_DIR.DS.'skeleton');
 }
 
 // Load our bootstrap file.
-require_once realpath(dirname(__FILE__).DS.'..'.DS.'lib'.DS.'bootstrap.inc.php');
-
-// Determine our root path
-$root_path = dirname(dirname(__FILE__));
+require_once realpath(CURATOR_LIB_DIR.DS.'bootstrap.inc.php');
 
 // Get her going.
-exit(\Curator\StartCurator($root_path));
+exit(\Curator\StartCurator(CURATOR_ROOT_DIR));
