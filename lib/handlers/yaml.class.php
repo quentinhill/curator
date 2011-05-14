@@ -10,31 +10,35 @@
  namespace Curator;
 
 /**
- * Handler interface
+ * YamlHandler class
  * 
  * @package		curator
  * @subpackage	handlers
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-interface Handler
+class YamlHandler implements Handler
 {
 	/**
      * Return the name of the Handler.
      * 
      * @return string
 	 * @access public
-	 * @static
      */
-	public static function getName();
+	public static function getName()
+	{
+		return 'YamlHandler';
+	}
 	
 	/**
      * Return the media type of the Handler.
      *
      * @return string
 	 * @access public
-	 * @static
      */
-	public static function getMediaType();
+	public static function getMediaType()
+	{
+		return 'text/yaml';
+	}
 	
 	/**
      * Handle $data, and return the results.
@@ -43,5 +47,15 @@ interface Handler
      * @return string
 	 * @access public
      */
-	public function handleData($data);
+	public function handleData($data)
+	{
+		include_once(CURATOR_THIRDPARTY_DIR.DS.'yaml'.DS.'lib'.DS.'sfYaml.php');
+		include_once(CURATOR_THIRDPARTY_DIR.DS.'yaml'.DS.'lib'.DS.'sfYamlInline.php');
+		include_once(CURATOR_THIRDPARTY_DIR.DS.'yaml'.DS.'lib'.DS.'sfYamlParser.php');
+		
+		$result = \sfYaml::load($data);
+		
+		return $result;
+	}
 }
+	

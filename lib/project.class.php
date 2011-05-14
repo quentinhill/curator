@@ -35,6 +35,14 @@ class Project
 	private $skeletonDir = '';
 	
 	/**
+	 * The skeleton config data.
+	 * 
+	 * @var array
+	 * @access private
+	 */
+	private $skeletonConfig = array();
+	
+	/**
 	 * Class constructor.
 	 * 
 	 * @param string $project_dir The full path to the project directory
@@ -54,6 +62,10 @@ class Project
 		
 		$this->projectDir = realpath($project_dir);
 		$this->skeletonDir = realpath($skeleton_dir);
+		
+		$config = new Config();
+		
+		$this->skeletonConfig = $config->loadData(CURATOR_CONFIG_DIR.DS.'skeleton.yml');
 	}
 	
 	/**
@@ -166,6 +178,18 @@ class Project
 		
 		if( !file_exists($source_file) && !is_file($source_file) ) {
 			throw new \Exception('Source file does not exist: '.$source_file);
+		}
+		
+		if( isset($this->skeletonConfig['skip']) ) {
+			
+			$filename = $source_info['filename'];
+			
+			foreach( $this->skeletonConfig['skip'] as $skip_filter ) {
+				if( preg_match($skip_filter, $filename) !== 0 ) {
+					return;
+				}
+			}
+			
 		}
 		
 		if( (file_exists($destination_file) === false) && (is_file($destination_file) === false) ) {

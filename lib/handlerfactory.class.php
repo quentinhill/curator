@@ -25,9 +25,7 @@ class HandlerFactory
 	 * @access private
 	 * @static
 	 */
-	private static $registry = array(
-		//'text/yaml' => 'YamlHandler',
-	);
+	private static $registry = null;
 	
 	/**
 	 * Triggers an error.
@@ -59,15 +57,51 @@ class HandlerFactory
 	public function createHandlerFor($media_type)
 	{
 		$object = null;
+		$registry = HandlerFactory::loadHandlers();
+		$handler_info = null;
 		
-		if( isset(HandlerFactory::$registry[$media_type]) ) {
-			$object = new $registry[$media_type];
+		if( !isset($registry[$media_type]) ) {
+			throw new \Exception('Unknown handler media type: '.$media_type);
 		}
 		
-		if( $object === null ) {
-			throw new \Exception('Could not create handler for \''.$media_type.'\'');
-		}
+		$handler_info = $registry[$media_type];
+		
+		$object = new $handler_info['class'];
 		
 		return $object;
+	}
+	
+	/**
+	 * Goes through the lib/handlers directory and loads any found helpers.
+	 * 
+	 * @return array The loaded handlers.
+	 * @access public
+	 */
+	public function loadHandlers()
+	{
+		if( HandlerFactory::$registry === null ) {
+			$registry = array();
+			
+			$handlers = Filesystem::getDirectoryContents(CURATOR_LIB_DIR.DS.'handlers');
+			
+			foreach( $handlers as $file_path ) {
+				$file_info = pathinfo($file_path);
+				$file_name = explode('.', $file_info['filename'], 2);
+				$file_name = $file_name[0];
+				
+				$class_name = '\\Curator\\'.ucfirst($file_name).'Handler';
+				
+				require_once $file_path;
+				
+				$handler_name = $class_name::getName();
+				$handler_media = $class_name::getMediaType();
+				
+				$registry[$handler_media] = array('name' => $handler_name, 'class' => $class_name);
+			}
+		}
+		
+		HandlerFactory::$registry = $registry;
+		
+		return HandlerFactory::$registry;
 	}
 }

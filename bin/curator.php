@@ -23,6 +23,13 @@ if( !defined('CURATOR_ROOT_DIR') ) {
 }
 
 /**
+ * Defines the full path to the config dir of the Curator installation.
+ */
+if( !defined('CURATOR_CONFIG_DIR') ) {
+	define('CURATOR_CONFIG_DIR', CURATOR_ROOT_DIR.DS.'config');
+}
+
+/**
  * Defines the full path to the lib dir of the Curator installation.
  */
 if( !defined('CURATOR_LIB_DIR') ) {
@@ -34,6 +41,13 @@ if( !defined('CURATOR_LIB_DIR') ) {
  */
 if( !defined('CURATOR_SKELETON_DIR') ) {
 	define('CURATOR_SKELETON_DIR', CURATOR_ROOT_DIR.DS.'skeleton');
+}
+
+/**
+ * Defines the full path to the skeleton dir of the Curator installation.
+ */
+if( !defined('CURATOR_THIRDPARTY_DIR') ) {
+	define('CURATOR_THIRDPARTY_DIR', CURATOR_ROOT_DIR.DS.'third-party');
 }
 
 // Load our bootstrap file.

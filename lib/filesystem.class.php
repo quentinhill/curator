@@ -25,6 +25,36 @@ class Filesystem
 	 */
 	private function __construct() { }
 	
+	public function getDirectoryContents($path, $options = array())
+	{
+		$default_options = array(
+			'files'			=> true,
+			'directories'	=> true,
+		);
+		
+		$options = array_merge($default_options, $options);
+		
+		// Copy directory contents.
+		$iterator = new \DirectoryIterator($path);
+		$files = array();
+		
+		foreach( $iterator as $file ) {
+			if( $file->isDot() ) {
+				continue;
+			}
+			
+			if( $file->isFile() && $options['files'] ) {
+				$files[] = $file->getPathname();
+			}
+
+			if( $file->isDir() && $options['directories'] ) {
+				$files[] = $file->getPathname();
+			}
+		}
+		
+		return $files;
+	}
+	
 	/**
 	 * Recursively copy a source directory to a destination directory.
 	 * 
