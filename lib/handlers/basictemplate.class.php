@@ -10,13 +10,13 @@
  namespace Curator;
 
 /**
- * YamlHandler class
+ * BasicTemplateHandler class
  * 
  * @package		curator
  * @subpackage	handlers
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class YamlHandler implements Handler
+class BasicTemplateHandler implements Handler
 {
 	/**
      * Return the name of the Handler.
@@ -26,7 +26,7 @@ class YamlHandler implements Handler
      */
 	public static function getName()
 	{
-		return 'YamlHandler';
+		return 'BasicTemplateHandler';
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class YamlHandler implements Handler
      */
 	public static function getMediaType()
 	{
-		return 'text/yaml';
+		return 'text/basic-template';
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class YamlHandler implements Handler
      */
     public static function getExtensions()
 	{
-		return array('yml', 'yaml');
+		return array('tmpl');
 	}
 	
 	/**
@@ -59,11 +59,9 @@ class YamlHandler implements Handler
      * @return string
 	 * @access public
      */
-	public function handleData($data)
+	public function handleData($data, $options = array())
 	{
-		include_once(CURATOR_THIRDPARTY_DIR.DS.'yaml'.DS.'lib'.DS.'sfYamlParser.php');
 		
-		$yaml = new \sfYamlParser();
 		$result = null;
 		
 		try {
@@ -72,21 +70,22 @@ class YamlHandler implements Handler
 				$data = file_get_contents($data);
 				
 				if( $data === false ) {
-					throw new \Exception('Could not load yaml: '.$data);
+					throw new \Exception('Could not load data: '.$data);
 				}
 			}
 			
-			$result = $yaml->parse($data);
+			foreach( $options as $key => $value ) {
+				$needle = '%%__'.strtoupper($key).'__%%';
+				
+				$data = str_replace($needle, $value, $data);
+			}
 			
-		} catch( \InvalidArgumentException $e ) {
-			
-			Console::stderr('** Unable to parse the YAML string:');
-			Console::stderr('   '.$e->getMessage());
+			$result = $data;
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not handle YAML data:');
-			Console::stderr('  '.$e->getMessage());
+			Console::stderr('** Could not handle basic template data:');
+			Console::stderr('   '.$e->getMessage());
 			
 		}
 		

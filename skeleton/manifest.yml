@@ -1,0 +1,4 @@
+Site:
+  title: 'Untitled Curator Project'
+  host: 'localhost'
+  template: 'default.tmpl'

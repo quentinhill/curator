@@ -31,7 +31,7 @@ class Config
      */
 	public function loadData($data)
 	{
-		$handler = HandlerFactory::createHandlerFor('text/yaml');
+		$handler = HandlerFactory::createHandlerFor(YamlHandler::getMediaType());
 		
 		$config = $handler->handleData($data);
 		

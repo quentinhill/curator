@@ -33,11 +33,16 @@ function StartCurator($root_dir)
 		
 		// configure the autoloader.
 		try {
+			
 			$autoload->setBaseDir($root_dir.DS.'lib');
 			$autoload->register();
+			
 		} catch( \Exception $e ) {
-			echo 'Could not register the autoloader: '.$e->getMessage()."\n";
+			
+			Console::stderr('** Could not register the autoloader:');
+			Console::stderr('   '.$e->getMessage());
 			die;
+			
 		}
 		
 		// once the autoloader is in place, we are started up.
@@ -50,14 +55,18 @@ function StartCurator($root_dir)
 			$exit_status = $app->run();
 			
 		} catch( \Exception $e ) {
-			echo $e->getMessage();
+			
+			Console::stderr('** Could not run the application:');
+			Console::stderr('   '.$e->getMessage());
 			die;
+			
 		}
 		
 	} else {
 		
 		// if we are called again, bail.
 		trigger_error('StartCurator called after already being called.', E_USER_ERROR);
+		
 	}
 	
 	// send the status back.

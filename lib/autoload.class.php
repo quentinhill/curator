@@ -80,14 +80,16 @@ class Autoload
 	{
 		$this->setBaseDir(CURATOR_LIB_DIR);
 		
-		$this->addClassPathToRegistry('Curator\Application',	'application.class.php');
-		$this->addClassPathToRegistry('Curator\Autoload',		'autoload.class.php');
-		$this->addClassPathToRegistry('Curator\Config',			'config.class.php');
-		$this->addClassPathToRegistry('Curator\Console',		'console.class.php');
-		$this->addClassPathToRegistry('Curator\Filesystem',		'filesystem.class.php');
-		$this->addClassPathToRegistry('Curator\Handler',		'handler.interface.php');
-		$this->addClassPathToRegistry('Curator\HandlerFactory',	'handlerfactory.class.php');
-		$this->addClassPathToRegistry('Curator\Project',		'project.class.php');
+		$this->addClassPathToRegistry('Curator\Application',			'application.class.php');
+		$this->addClassPathToRegistry('Curator\Autoload',				'autoload.class.php');
+		$this->addClassPathToRegistry('Curator\Config',					'config.class.php');
+		$this->addClassPathToRegistry('Curator\Console',				'console.class.php');
+		$this->addClassPathToRegistry('Curator\Filesystem',				'filesystem.class.php');
+		$this->addClassPathToRegistry('Curator\Handler',				'handler.interface.php');
+		$this->addClassPathToRegistry('Curator\HandlerFactory',			'handlerfactory.class.php');
+		$this->addClassPathToRegistry('Curator\Project',				'project.class.php');
+		$this->addClassPathToRegistry('Curator\YamlHandler',			'handlers'.DS.'yaml.class.php');
+		$this->addClassPathToRegistry('Curator\BasicTemplateHandler',	'handlers'.DS.'basictemplate.class.php');
 	}
 	
 	/**

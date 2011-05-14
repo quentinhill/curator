@@ -91,6 +91,7 @@ class Application
 			Console::stdout('Use \''.$this->cmd.' --help\' for usage information.');
 		} else {
 			try {
+				
 				$parser = $this->buildCommandLineParser();
 				
 				$result = $parser->parse();
@@ -106,29 +107,37 @@ class Application
 				
 				$this->createDirectoryAtPath($project_dir);
 				
-				switch( $result->command_name ) {
-					case 'new':
-						$project = new Project($project_dir);
-						
-						$project->install();
-						break;
+				try {
 					
-					case 'clean':
-						$project = new Project($project_dir);
-						
-						$project->clean();
-						break;
+					$project = new Project($project_dir);
 					
-					case 'build':
-						$project = new Project($project_dir);
+					switch( $result->command_name ) {
+						case 'new':
+							$project->install();
+							
+							break;
 						
-						$project->build();
-						break;
+						case 'clean':
+							$project->clean();
+							break;
+						
+						case 'build':
+							$project->build();
+							break;
+					}
+					
+				} catch( \Exception $e ) {
+					
+					Console::stderr('** Command \''.$result->command_name.'\' has failed:');
+					Console::stderr('  '.$e->getMessage());
+					
 				}
 				
 			} catch( \Exception $e ) {
+				
 				$parser->displayError($e->getMessage());
 				$exit_status = $e->getCode();
+				
 			}
 		}
 		

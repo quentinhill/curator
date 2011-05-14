@@ -52,5 +52,5 @@ interface Handler
      * @return string
 	 * @access public
      */
-	public function handleData($data);
+	public function handleData($data, $options = array());
 }

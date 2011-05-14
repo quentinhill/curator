@@ -111,8 +111,8 @@ class Project
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('Could not install \''.$skeleton_dir.'\' into \''.$project_dir.'\'');
-			Console::stderr('  Error: '.$e->getMessage());
+			Console::stderr('** Could not install \''.$skeleton_dir.'\' into \''.$project_dir.'\'');
+			Console::stderr('   '.$e->getMessage());
 			
 		}
 	}
@@ -134,7 +134,7 @@ class Project
 		
 		// See if the destination exists.
 		if( (file_exists($destination_dir) === false) && (is_dir($destination_dir) === false) ) {
-			Console::stdout('  Creating '.$source_rel);
+			Console::stdout('  Creating '.$source_rel.DS);
 			
 			// Create the directory.
 			if( !mkdir($destination_dir, 0755) ) {
@@ -201,5 +201,23 @@ class Project
 				throw new \Exception('Could not copy file: '.$source_file);
 			}
 		}
+	}
+	
+	/**
+	 * Builds the current project.
+	 * 
+	 * @access public
+	 */
+	public function build()
+	{
+		$manifest_path = $this->getProjectDir().DS.'manifest.yml';
+		
+		if( !is_file($manifest_path) ) {
+			throw new \Exception('Could not locate manifest at: '.$manifest_path);
+		}
+		
+		$config = new Config();
+		
+		$manifest = $config->loadData($manifest_path);
 	}
 }

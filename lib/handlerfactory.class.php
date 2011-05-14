@@ -102,8 +102,9 @@ class HandlerFactory
 	 */
 	public static function loadHandlers()
 	{
+		$registry = array();
+		
 		if( HandlerFactory::$registry === null ) {
-			$registry = array();
 			
 			$handlers = Filesystem::getDirectoryContents(CURATOR_LIB_DIR.DS.'handlers');
 			
@@ -127,6 +128,8 @@ class HandlerFactory
 					'extensions' => $handler_extensions,
 				);
 			}
+		} else {
+			$registry = HandlerFactory::$registry;
 		}
 		
 		HandlerFactory::$registry = $registry;
