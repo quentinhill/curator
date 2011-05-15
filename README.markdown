@@ -11,7 +11,8 @@ Always remember: Keep it simple.
 
 
 ## Download ##
-You can download this project in either [zip][zipball] or [tar][tarball] formats.
+
+You can download this project in either [zip][zipball] or [tar][tarball] formats from [GitHub][github].
 
 You can also clone the project with [Git][git] by running:
 
@@ -31,8 +32,10 @@ Please see the file LICENSE.
 
 
 [git]:http://git-scm.com
+[github]:http://github.com
 [php]:http://php.net
 [qhill-email]:mailto:quentin@quentinhill.com
 [qhill-website]:http://quentinhill.com
 [tarball]:http://github.com/quentinhill/curator/tarball/master
 [zipball]:http://github.com/quentinhill/curator/zipball/master
+[curator-github]:http://quentinhill.github.com/curator
