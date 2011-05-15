@@ -16,27 +16,8 @@
  * @subpackage	builders
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class DataBuilder implements Builder
+class DataBuilder extends Builder
 {
-	/**
-	 * The project this Builder belongs to.
-	 * 
-	 * @var Project
-	 * @access private
-	 */
-	private $project = null;
-	
-	/**
-     * Set the project to $project.
-     *
-     * @param string $project The project.
-	 * @access public
-     */
-    public function setProject($project)
-	{
-		$this->project = $project;
-	}
-	
 	/**
 	 * Build the data files.
 	 * 
@@ -45,48 +26,60 @@ class DataBuilder implements Builder
 	 */
 	public function build()
 	{
-		$data_dir		= $this->project->getProjectDataDir();
-		
-		$data_files = Filesystem::getDirectoryContents($data_dir);
+		// Get our cast of characters.
+		$data_dir	= $this->project->getProjectDataDir();
+		$data_files	= Filesystem::getDirectoryContents($data_dir);
 		
 		foreach( $data_files as $data_file ) {
 			
+			// Gather our facts here.
 			$data_info	= pathinfo($data_file);
 			$data_ext	= $data_info['extension'];
-			$data_rel	= str_replace($this->project->getProjectDir(), '', $data_file);
+			$data_rel	= str_replace($this->project->getProjectDir(), '', $data_file); // relative from the project dir.
 			$data_media	= HandlerFactory::getMediaTypeForFileExtension($data_ext);
 			
 			Console::stdout('  Building '.$data_rel);
 			
-			$handler = HandlerFactory::getHandlerForMediaType($data_media);
+			// load the data file.
+			$handler	= HandlerFactory::getHandlerForMediaType($data_media);
+			$data		= $handler->handleData($data_file);
 			
-			$curd = $handler->handleData($data_file);
-			
-			if( isset($curd['header']['template']) ) {
-				$template_name = $curd['header']['template'];
+			// Figure out what template to use. If the file has a specific
+			// one, use it. Otherwise, grab the one specified in the
+			// project manifest.
+			if( isset($data['header']['template']) ) {
+				$template_name = $data['header']['template'];
 			} else {
 				$manifest = $this->project->getManifestData();
 				
 				$template_name = $manifest['data']['template'];
 			}
 			
+			// An overly complex way of doing something simple, I'm sure.
+			// Just getting the path to the template file, the media type
+			// for that file, based on its extension, and the handler for
+			// that media type.
 			$template_path = $this->project->getTemplatesDirPath().DS.$template_name;
 			$template_media = HandlerFactory::getMediaTypeForFileExtension(pathinfo($template_path, PATHINFO_EXTENSION));
 			$tmpl_handler = HandlerFactory::getHandlerForMediaType($template_media);
 			
+			// And a template is useless without things to change.
 			$substitutions = array();
 			
-			$substitutions['styles_combined_url']	= '/styles/combined-345jlk43j5l34kj5l43kj5l.css';
+			// •• This needs to be defined somehow!
+			$substitutions['styles_combined_url']	= '';
 			$substitutions['site_title']			= $manifest['template']['title'];
 			$substitutions['site_tagline']			= $manifest['template']['tagline'];
 			$substitutions['site_host']				= $manifest['template']['host'];
-			$substitutions['data_title']			= $curd['header']['title'];
-			$substitutions['data_content']			= $curd['body'];
+			$substitutions['data_title']			= $data['header']['title'];
+			$substitutions['data_content']			= $data['body'];
 			
 			$tmpl_data = $tmpl_handler->handleData($template_path, $substitutions);
 			
-			if( isset($curd['header']['url']) ) {
-				$filename = $curd['header']['url'];
+			// See if the file specifies a special name, otherwise hack
+			// together something resembling the data's filename.
+			if( isset($data['header']['url']) ) {
+				$filename = $data['header']['url'];
 			} else {
 				$filename = pathinfo($data_file, PATHINFO_FILENAME).'.html';
 			}

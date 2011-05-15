@@ -16,27 +16,8 @@
  * @subpackage	builders
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class DataBuilder implements Builder
+class DataBuilder extends Builder
 {
-	/**
-	 * The project this Builder belongs to.
-	 * 
-	 * @var Project
-	 * @access private
-	 */
-	private $project = null;
-	
-	/**
-     * Set the project to $project.
-     *
-     * @param string $project The project.
-	 * @access public
-     */
-    public function setProject($project)
-	{
-		$this->project = $project;
-	}
-	
 	/**
 	 * Build the data files.
 	 * 
@@ -50,7 +31,7 @@ class DataBuilder implements Builder
 		
 		try {
 			
-			
+			// Do something!
 			
 		} catch( \Exception $e ) {
 			

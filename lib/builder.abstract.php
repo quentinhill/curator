@@ -16,16 +16,37 @@
  * @subpackage	builders
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-interface Builder
+abstract class Builder
 {
 	/**
-     * Return the media type of the Builder.
+	 * The project this Builder belongs to.
+	 * 
+	 * @var Project
+	 * @access protected
+	 */
+	protected $project = null;
+	
+	/**
+     * Set the project to $project.
      *
-     * @return string
+     * @param string $project The project.
 	 * @access public
      */
-	public function setProject($project);
+    public function setProject($project)
+	{
+		$this->project = $project;
+	}
 	
+	/**
+     * Set the project to $project.
+     *
+     * @param string $project The project.
+	 * @access public
+     */
+    public function getProject()
+	{
+		return $this->project;
+	}
 	
 	/**
      * Handle $data, and return the results.
@@ -33,6 +54,7 @@ interface Builder
      * @param string data The data to handle.
      * @return string
 	 * @access public
+	 * @abstract
      */
-	public function build();
+	abstract public function build();
 }
