@@ -43,6 +43,14 @@ class Project
 	private $skeletonConfig = array();
 	
 	/**
+	 * The project manifest data.
+	 * 
+	 * @var array
+	 * @access private
+	 */
+	private $manifest = null;
+	
+	/**
 	 * Class constructor.
 	 * 
 	 * @param string $project_dir The full path to the project directory
@@ -80,6 +88,45 @@ class Project
 	}
 	
 	/**
+	 * Returns the full path to project/data directory.
+	 * 
+	 * @return string The full path to the project/data directory.
+	 * @access public
+	 */
+	public function getProjectDataDir()
+	{
+		$data_dir = $this->projectDir.DS.'data';
+		
+		return $data_dir;
+	}
+	
+	/**
+	 * Returns the full path to project/templates directory.
+	 * 
+	 * @return string The full path to the project/templates directory.
+	 * @access public
+	 */
+	public function getTemplatesDirPath()
+	{
+		$templates_dir = $this->projectDir.DS.'templates';
+		
+		return $templates_dir;
+	}
+	
+	/**
+	 * Returns the full path to project/public_html directory.
+	 * 
+	 * @return string The full path to the project/public_html directory.
+	 * @access public
+	 */
+	public function getPublicHtmlDir()
+	{
+		$public_dir = $this->projectDir.DS.'public_html';
+		
+		return $public_dir;
+	}
+	
+	/**
 	 * Returns the projects skeleton directory.
 	 * 
 	 * @return string The full path to the projects skeleton directory.
@@ -88,6 +135,27 @@ class Project
 	public function getSkeletonDir()
 	{
 		return $this->skeletonDir;
+	}
+	
+	/**
+	 * Returns the projects manifest data.
+	 * 
+	 * @return array The manifest data.
+	 * @access public
+	 */
+	public function getManifestData()
+	{
+		if( $this->manifest === null ) {
+			$manifest_path = $this->getProjectDir().DS.'manifest.yml';
+			$ext = HandlerFactory::getMediaTypeForFileExtension(pathinfo($manifest_path, PATHINFO_EXTENSION));
+			$handler = HandlerFactory::getHandlerForMediaType($ext);
+			
+			$manifest = $handler->handleData($manifest_path);
+			
+			$this->manifest = $manifest;
+		}
+		
+		return $this->manifest;
 	}
 	
 	/**
@@ -219,5 +287,10 @@ class Project
 		$config = new Config();
 		
 		$manifest = $config->loadData($manifest_path);
+		
+		$data_builder = new DataBuilder();
+		$data_builder->setProject($this);
+		
+		$data_builder->build();
 	}
 }

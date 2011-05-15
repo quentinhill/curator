@@ -16,6 +16,13 @@ if( !defined('DS') ) {
 }
 
 /**
+ * Defines shorthand notation for the desired newline character..
+ */
+if( !defined('NL') ) {
+	define('NL', "\n");
+}
+
+/**
  * Defines the full path to the root of the Curator installation.
  */
 if( !defined('CURATOR_ROOT_DIR') ) {

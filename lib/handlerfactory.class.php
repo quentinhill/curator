@@ -61,7 +61,7 @@ class HandlerFactory
 		$media_type = null;
 		
 		foreach( $registry as $handler ) {
-			if( isset($handler['extensions'][$extension]) ) {
+			if( in_array($extension, $handler['extensions']) ) {
 				$media_type = $handler['media_type'];
 				break;
 			}
@@ -77,11 +77,16 @@ class HandlerFactory
 	 * @returns object The object for the media type.
 	 * @access public
 	 */
-	public static function createHandlerFor($media_type)
+	public static function getHandlerForMediaType($media_type)
 	{
 		$object = null;
 		$registry = HandlerFactory::loadHandlers();
 		$handler_info = null;
+		
+		if( empty($media_type) ) {
+			echo 'fuck!'."\n";
+			die;
+		}
 		
 		if( !isset($registry[$media_type]) ) {
 			throw new \Exception('Unknown handler media type: '.$media_type);

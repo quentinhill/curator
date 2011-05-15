@@ -83,14 +83,18 @@ class Autoload
 		$this->addClassPathToRegistry('Curator\Application',			'application.class.php');
 		$this->addClassPathToRegistry('Curator\Autoload',				'autoload.class.php');
 		$this->addClassPathToRegistry('Curator\BasicTemplateHandler',	'handlers'.DS.'basictemplate.class.php');
+		$this->addClassPathToRegistry('Curator\Builder',				'builder.interface.php');
 		$this->addClassPathToRegistry('Curator\Config',					'config.class.php');
 		$this->addClassPathToRegistry('Curator\Console',				'console.class.php');
 		$this->addClassPathToRegistry('Curator\CurdHandler',			'handlers'.DS.'curd.class.php');
+		$this->addClassPathToRegistry('Curator\DataBuilder',			'builders'.DS.'data.class.php');
 		$this->addClassPathToRegistry('Curator\Filesystem',				'filesystem.class.php');
 		$this->addClassPathToRegistry('Curator\Handler',				'handler.interface.php');
 		$this->addClassPathToRegistry('Curator\HandlerFactory',			'handlerfactory.class.php');
 		$this->addClassPathToRegistry('Curator\Project',				'project.class.php');
 		$this->addClassPathToRegistry('Curator\YamlHandler',			'handlers'.DS.'yaml.class.php');
+		$this->addClassPathToRegistry('Curator\MarkdownHandler',		'handlers'.DS.'markdown.class.php');
+		$this->addClassPathToRegistry('Curator\StylesBuilder',			'builders'.DS.'styles.class.php');
 	}
 	
 	/**
@@ -117,7 +121,7 @@ class Autoload
 		if( is_string($basedir) && is_dir($basedir) ) {
 			$this->baseDir = realpath($basedir);
 		} else {
-			throw new Exception('Invalid path give for autoload base directory: '.$basedir);
+			throw new \Exception('Invalid path give for autoload base directory: '.$basedir);
 		}
 	}
 	
@@ -143,7 +147,7 @@ class Autoload
 		ini_set('unserialize_callback_func', 'spl_autoload_call');
 		
 		if( !spl_autoload_register(array(self::singleton(), 'autoload')) ) {
-			throw new Exception('Unable to register Autoload::autoload() as an autoloading method.');
+			throw new \Exception('Unable to register Autoload::autoload() as an autoloading method.');
 		}
 		
 		self::$registeredCount++;

@@ -1,4 +1,9 @@
-Site:
+template:
   title: 'Untitled Curator Project'
+  tagline: 'Something witty goes here.'
   host: 'localhost'
+
+data:
   template: 'default.tmpl'
+
+styles:

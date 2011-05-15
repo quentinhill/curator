@@ -10,13 +10,13 @@
  namespace Curator;
 
 /**
- * CurdHandler class
+ * MarkdownHandler class
  * 
  * @package		curator
  * @subpackage	handlers
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class CurdHandler implements Handler
+class MarkdownHandler implements Handler
 {
 	/**
      * Return the name of the Handler.
@@ -26,7 +26,7 @@ class CurdHandler implements Handler
      */
 	public static function getName()
 	{
-		return 'CurdHandler';
+		return 'Markdown';
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class CurdHandler implements Handler
      */
 	public static function getMediaType()
 	{
-		return 'text/curator-data';
+		return 'text/markdown';
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class CurdHandler implements Handler
      */
     public static function getExtensions()
 	{
-		return array('curd');
+		return array('md', 'markdown');
 	}
 	
 	/**
@@ -61,6 +61,9 @@ class CurdHandler implements Handler
      */
 	public function handleData($data, $options = array())
 	{
+		include_once(CURATOR_THIRDPARTY_DIR.DS.'php-markdown-extra'.DS.'markdown.php');
+		include_once(CURATOR_THIRDPARTY_DIR.DS.'php-smartypants-typographer'.DS.'smartypants.php');
+		
 		
 		$result = null;
 		
@@ -70,30 +73,15 @@ class CurdHandler implements Handler
 				$data = file_get_contents($data);
 				
 				if( $data === false ) {
-					throw new \Exception('Could not load data: '.$data);
+					throw new \Exception('Could not load file: '.$data);
 				}
 			}
 			
-			$data_array = explode("\n\n---\n\n", $data, 2);
-			
-			$header_handler = HandlerFactory::getHandlerForMediaType(YamlHandler::getMediaType());
-			
-			$header_data = $header_handler->handleData($data_array[0]);
-			
-			$body_format = $header_data['format'];
-			
-			$body_handler = HandlerFactory::getHandlerForMediaType($body_format);
-			
-			$body_data = $body_handler->handleData($data_array[1]);
-			
-			$result = array();
-			$result['header'] = $header_data;
-			$result['body'] = $body_data;
-			$result['body_raw'] = $data_array[1];
+			$result = \Markdown(\SmartyPants($data));
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not handle curd data:');
+			Console::stderr('** Could not handle Mardkwon data:');
 			Console::stderr('   '.$e->getMessage());
 			
 		}
