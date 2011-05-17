@@ -30,12 +30,15 @@ class DataBuilder extends Builder
 		$data_dir	= $this->project->getProjectDataDir();
 		$data_files	= Filesystem::getDirectoryContents($data_dir);
 		
+		Console::stdout('Project Directory: '.$this->project->getProjectDir());
+		Console::stdout('');
+		
 		foreach( $data_files as $data_file ) {
 			
 			// Gather our facts here.
 			$data_info	= pathinfo($data_file);
 			$data_ext	= $data_info['extension'];
-			$data_rel	= str_replace($this->project->getProjectDir(), '', $data_file); // relative from the project dir.
+			$data_rel	= str_replace($this->project->getProjectDir().DS, '', $data_file); // relative from the project dir.
 			$data_media	= HandlerFactory::getMediaTypeForFileExtension($data_ext);
 			
 			Console::stdout('  Building '.$data_rel);

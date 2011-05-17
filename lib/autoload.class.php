@@ -93,7 +93,6 @@ class Autoload
 		$this->addClassPathToRegistry('Curator\HandlerFactory',			'handlerfactory.class.php');
 		$this->addClassPathToRegistry('Curator\MarkdownHandler',		'handlers'.DS.'markdown.class.php');
 		$this->addClassPathToRegistry('Curator\Project',				'project.class.php');
-		$this->addClassPathToRegistry('Curator\StylesBuilder',			'builders'.DS.'styles.class.php');
 		$this->addClassPathToRegistry('Curator\YamlHandler',			'handlers'.DS.'yaml.class.php');
 	}
 	
