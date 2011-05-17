@@ -27,7 +27,7 @@ class DataBuilder extends Builder
 	public function build()
 	{
 		// Get our cast of characters.
-		$data_dir	= $this->project->getProjectDataDir();
+		$data_dir	= $this->project->getDataDirPath();
 		$data_files	= Filesystem::getDirectoryContents($data_dir);
 		
 		foreach( $data_files as $data_file ) {
@@ -127,10 +127,12 @@ class DataBuilder extends Builder
 			
 			$output_path = $this->project->getPublicHtmlDirPath().DS.$filename;
 			
-			Console::stdout('  Deleting public_html'.DS.$filename);
-			
-			if( !unlink($output_path) ) {
-				throw new \Exception('Could not delete: '.$output_path);
+			if( file_exists($output_path) ) {
+				Console::stdout('  Deleting public_html'.DS.$filename);
+				
+				if( !unlink($output_path) ) {
+					throw new \Exception('Could not delete: '.$output_path);
+				}
 			}
 		}
 	}

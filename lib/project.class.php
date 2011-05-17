@@ -93,7 +93,7 @@ class Project
 	 * @return string The full path to the project/data directory.
 	 * @access public
 	 */
-	public function getProjectDataDir()
+	public function getDataDirPath()
 	{
 		$data_dir = $this->projectDir.DS.'data';
 		
@@ -352,9 +352,18 @@ class Project
 		Console::stdout('Project Directory: '.$this->getProjectDirPath());
 		Console::stdout('');
 		
+		$styles_builder = new StylesBuilder();
+		$styles_builder->setProject($this);
+		
+		Console::stdout(' Cleaning stylesheets…');
+		$styles_builder->clean();
+		Console::stdout('');
+		
 		$data_builder = new DataBuilder();
 		$data_builder->setProject($this);
 		
+		Console::stdout(' Cleaning data…');
 		$data_builder->clean();
+		Console::stdout('');
 	}
 }
