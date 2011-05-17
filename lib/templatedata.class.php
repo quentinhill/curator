@@ -19,40 +19,113 @@
 class TemplateData
 {
 	/**
+	 * The shared instance.
+	 *
+	 * @var object
+	 * @access private
+	 */
+	private static $instance;
+	
+	/**
 	 * The backend array.
 	 *
 	 * @var array
 	 * @access protected
 	 */
-	protected static $data = array();
+	protected $data = array();
 	
 	/**
-	 * Private constructor.
+	 * Returns the shared Console.
+	 *
+	 * @return Console
+	 * @access public
+	 */
+	public static function singleton() 
+	{
+		if( !isset(self::$instance) ) {
+			$c = __CLASS__;
+			self::$instance = new $c;
+		}
+		
+		return self::$instance;
+	}
+	
+	/**
+	 * Loads the default values.
 	 *
 	 * @return Console
 	 * @access private
 	 */
-	public function __construct() 
-	{
-		$this->loadDefaultValues();
-	}
-	
-	private function loadDefaultValues()
+	private function __construct() 
 	{
 		$config = new Config();
 		
-		TemplateData::$data = $config->loadData(CURATOR_CONFIG_DIR.DS.'templatedata.yml');
+		$this->data = $config->loadData(CURATOR_CONFIG_DIR.DS.'templatedata.yml');
 	}
 	
-	public function getValue($group, $key)
+	/**
+	 * Triggers an error.
+	 *
+	 * @access public
+	 */
+	public function __clone()
 	{
-		$value = TemplateData::$data[$group][$key];
+		trigger_error('Cloning TemplateData is not allowed.', E_USER_ERROR);
+	}
+	
+	/**
+	 * Return the value of $data[$group][$key].
+	 * 
+	 * @param string $group The data group.
+	 * @param string $key The key.
+	 * @return Mixed the value.
+	 * @access public
+	 * @static
+	 */
+	public static function getValue($group, $key)
+	{
+		$self = TemplateData::singleton();
+		$value = null;
+		
+		if( isset($self->data[$group][$key]) ) {
+			$value = $self->data[$group][$key];
+		} else {
+			throw new \Exception('Unknown group: '.$group.', and key: '.$key);
+		}
 		
 		return $value;
 	}
 	
-	public function setValue($group, $key, $value)
+	/**
+	 * Set $data[$group][$key] to $value.
+	 * 
+	 * @param string $group The data group.
+	 * @param string $key The key.
+	 * @param mixed $value The value.
+	 * @access public
+	 * @static
+	 */
+	public static function setValue($group, $key, $value)
 	{
-		TemplateData::$data[$group][$key] = $value;
+		$self = TemplateData::singleton();
+		
+		$group = strval($group);
+		$key = strval($key);
+		
+		$self->data[$group][$key] = $value;
+	}
+	
+	/**
+	 * Get the data array.
+	 * 
+	 * @return array The data
+	 * @access public
+	 * @static
+	 */
+	public static function getData()
+	{
+		$self = TemplateData::singleton();
+		
+		return $self->data;
 	}
 }

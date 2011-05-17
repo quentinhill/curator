@@ -67,12 +67,14 @@ class DataBuilder extends Builder
 			$substitutions = array();
 			
 			// •• This needs to be defined somehow!
-			$substitutions['styles_combined_url']	= '';
+			$substitutions['styles_combined_url']	= TemplateData::getValue('styles', 'combined');
 			$substitutions['site_title']			= $manifest['template']['title'];
 			$substitutions['site_tagline']			= $manifest['template']['tagline'];
 			$substitutions['site_host']				= $manifest['template']['host'];
 			$substitutions['data_title']			= $data['header']['title'];
 			$substitutions['data_content']			= $data['body'];
+			
+			print_r($substitutions);
 			
 			$tmpl_data = $tmpl_handler->handleData($template_path, $substitutions);
 			

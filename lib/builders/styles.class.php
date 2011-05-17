@@ -46,12 +46,15 @@ class StylesBuilder extends Builder
 			
 			$output_path = $project->getPublicStylesDirPath().DS.'output-'.$hash.'.css';
 			$rel_output = str_replace($this->project->getProjectDirPath().DS, '', $output_path);
+			$url_output = str_replace($this->project->getPublicHtmlDirPath(), '', $output_path);
 			
 			Console::stdout('  Writing '.$rel_output);
 			
 			if( !file_put_contents($output_path, $css_data) ) {
 				throw new \Exception('Could not write CSS to: '.$output_path);
 			}
+			
+			TemplateData::setValue('styles', 'combined', $url_output);
 		} else {
 			Console::stdout('  Nothing to do.');
 		}
