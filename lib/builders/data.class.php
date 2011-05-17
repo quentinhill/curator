@@ -35,7 +35,7 @@ class DataBuilder extends Builder
 			// Gather our facts here.
 			$data_info	= pathinfo($data_file);
 			$data_ext	= $data_info['extension'];
-			$data_rel	= str_replace($this->project->getProjectDir().DS, '', $data_file); // relative from the project dir.
+			$data_rel	= str_replace($this->project->getProjectDirPath().DS, '', $data_file); // relative from the project dir.
 			$data_media	= HandlerFactory::getMediaTypeForFileExtension($data_ext);
 			
 			Console::stdout('  Building '.$data_rel);
@@ -84,7 +84,7 @@ class DataBuilder extends Builder
 				$filename = pathinfo($data_file, PATHINFO_FILENAME).'.html';
 			}
 			
-			$output_path = $this->project->getPublicHtmlDir().DS.$filename;
+			$output_path = $this->project->getPublicHtmlDirPath().DS.$filename;
 			
 			Console::stdout('  Creating public_html'.DS.$filename);
 			

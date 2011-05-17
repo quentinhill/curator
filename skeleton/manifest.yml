@@ -7,3 +7,4 @@ data:
   template: 'default.tmpl'
 
 styles:
+  combined: ['fonts.css', 'baseline.css', 'mobile.css', 'print.css', 'screen.css']

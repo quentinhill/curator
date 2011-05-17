@@ -82,7 +82,7 @@ class Project
 	 * @return string The full path to the projects directory.
 	 * @access public
 	 */
-	public function getProjectDir()
+	public function getProjectDirPath()
 	{
 		return $this->projectDir;
 	}
@@ -114,14 +114,40 @@ class Project
 	}
 	
 	/**
+	 * Returns the full path to project/templates directory.
+	 * 
+	 * @return string The full path to the project/templates directory.
+	 * @access public
+	 */
+	public function getStylesDirPath()
+	{
+		$styles_dir = $this->projectDir.DS.'styles';
+		
+		return $styles_dir;
+	}
+	
+	/**
 	 * Returns the full path to project/public_html directory.
 	 * 
 	 * @return string The full path to the project/public_html directory.
 	 * @access public
 	 */
-	public function getPublicHtmlDir()
+	public function getPublicHtmlDirPath()
 	{
 		$public_dir = $this->projectDir.DS.'public_html';
+		
+		return $public_dir;
+	}
+	
+	/**
+	 * Returns the full path to project/public_html/styles directory.
+	 * 
+	 * @return string The full path to the project/public_html/styles directory.
+	 * @access public
+	 */
+	public function getPublicStylesDirPath()
+	{
+		$public_dir = $this->getPublicHtmlDirPath().DS.'styles';
 		
 		return $public_dir;
 	}
@@ -132,7 +158,7 @@ class Project
 	 * @return string The full path to the projects skeleton directory.
 	 * @access public
 	 */
-	public function getSkeletonDir()
+	public function getSkeletonDirPath()
 	{
 		return $this->skeletonDir;
 	}
@@ -146,7 +172,7 @@ class Project
 	public function getManifestData()
 	{
 		if( $this->manifest === null ) {
-			$manifest_path = $this->getProjectDir().DS.'manifest.yml';
+			$manifest_path = $this->getProjectDirPath().DS.'manifest.yml';
 			$ext = HandlerFactory::getMediaTypeForFileExtension(pathinfo($manifest_path, PATHINFO_EXTENSION));
 			$handler = HandlerFactory::getHandlerForMediaType($ext);
 			
@@ -166,8 +192,8 @@ class Project
 	 */
 	public function install()
 	{
-		$project_dir	= $this->getProjectDir();
-		$skeleton_dir	= $this->getSkeletonDir();
+		$project_dir	= $this->getProjectDirPath();
+		$skeleton_dir	= $this->getSkeletonDirPath();
 		
 		// remind us where we are dumping all this
 		Console::stdout('Project directory: '.$project_dir);
@@ -197,7 +223,7 @@ class Project
 	 */
 	protected function installDirectory($source_dir, $destination_dir)
 	{
-		$source_rel		= str_replace($this->getSkeletonDir().DS, '', $source_dir);
+		$source_rel		= str_replace($this->getSkeletonDirPath().DS, '', $source_dir);
 		$source_info	= pathinfo($source_dir);
 		
 		// See if the destination exists.
@@ -241,7 +267,7 @@ class Project
 	 */
 	protected function installFile($source_file, $destination_file)
 	{
-		$source_rel		= str_replace($this->getSkeletonDir().DS, '', $source_file);
+		$source_rel		= str_replace($this->getSkeletonDirPath().DS, '', $source_file);
 		$source_info	= pathinfo($source_file);
 		
 		if( !file_exists($source_file) && !is_file($source_file) ) {
@@ -278,7 +304,7 @@ class Project
 	 */
 	public function build()
 	{
-		$manifest_path = $this->getProjectDir().DS.'manifest.yml';
+		$manifest_path = $this->getProjectDirPath().DS.'manifest.yml';
 		
 		if( !is_file($manifest_path) ) {
 			throw new \Exception('Could not locate manifest at: '.$manifest_path);
@@ -288,13 +314,22 @@ class Project
 		
 		$manifest = $config->loadData($manifest_path);
 		
-		Console::stdout('Project Directory: '.$this->getProjectDir());
+		Console::stdout('Project Directory: '.$this->getProjectDirPath());
+		Console::stdout('');
+		
+		$styles_builder = new StylesBuilder();
+		$styles_builder->setProject($this);
+		
+		Console::stdout(' Building stylesheets…');
+		$styles_builder->build();
 		Console::stdout('');
 		
 		$data_builder = new DataBuilder();
 		$data_builder->setProject($this);
 		
+		Console::stdout(' Building data…');
 		$data_builder->build();
+		Console::stdout('');
 	}
 	
 	/**
@@ -304,7 +339,7 @@ class Project
 	 */
 	public function clean()
 	{
-		$manifest_path = $this->getProjectDir().DS.'manifest.yml';
+		$manifest_path = $this->getProjectDirPath().DS.'manifest.yml';
 		
 		if( !is_file($manifest_path) ) {
 			throw new \Exception('Could not locate manifest at: '.$manifest_path);
@@ -314,7 +349,7 @@ class Project
 		
 		$manifest = $config->loadData($manifest_path);
 		
-		Console::stdout('Project Directory: '.$this->getProjectDir());
+		Console::stdout('Project Directory: '.$this->getProjectDirPath());
 		Console::stdout('');
 		
 		$data_builder = new DataBuilder();
