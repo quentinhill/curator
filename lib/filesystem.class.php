@@ -25,7 +25,13 @@ class Filesystem
 	 */
 	private function __construct() { }
 	
-	public function getDirectoryContents($path, $options = array())
+	/**
+	 * Gets the contents of the directory.
+	 * 
+	 * @param string path The directory.
+	 * @param string $options The options.
+	 */
+	public static function getDirectoryContents($path, $options = array())
 	{
 		$default_options = array(
 			'files'			=> true,
@@ -59,9 +65,9 @@ class Filesystem
 	 * Recursively copy a source directory to a destination directory.
 	 * 
 	 * @param string $source The source directory.
-	 * @param string $destination $the destination directory.
+	 * @param string $destination The destination directory.
 	 */
-	public function recursiveCopy($source, $destination)
+	public static function recursiveCopy($source, $destination)
 	{
 		if( !is_dir($source) ) {
 			throw new Exception('Source for recursive copy is not a directory: '.$source);
