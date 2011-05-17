@@ -31,16 +31,24 @@ class StylesBuilder extends Builder
 		$style_options = $manifest['styles'];
 		
 		$css_data = '';
+		$raw_size = 0;
 		
 		if( is_array($style_options['combined']) ) {
 			foreach( $style_options['combined'] as $filename ) {
 				$filepath = $this->project->getStylesDirPath().DS.$filename;
 				$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $filepath);
+				$raw_size = $raw_size + filesize($filepath);
 				
 				Console::stdout('  Loading '.$rel_path);
 				
 				$css_data = $css_data."\n\n".file_get_contents($filepath);
 			}
+			
+			Console::stdout('  Minimizing output…');
+			
+			$handler = HandlerFactory::getHandlerForMediaType('text/css');
+			
+			$css_data = $handler->handleData($css_data);
 			
 			$hash = hash('sha256', $css_data);
 			
@@ -48,11 +56,14 @@ class StylesBuilder extends Builder
 			$rel_output = str_replace($this->project->getProjectDirPath().DS, '', $output_path);
 			$url_output = str_replace($this->project->getPublicHtmlDirPath(), '', $output_path);
 			
-			Console::stdout('  Writing '.$rel_output);
-			
 			if( !file_put_contents($output_path, $css_data) ) {
 				throw new \Exception('Could not write CSS to: '.$output_path);
 			}
+			
+			$output_size = filesize($output_path);
+			$a = sprintf('%d', (100 * ($output_size/$raw_size)));
+			
+			Console::stdout('  wrote '.$rel_output.' ('.$a.'%)');
 			
 			TemplateData::setValue('styles', 'combined', $url_output);
 		} else {
