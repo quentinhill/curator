@@ -102,7 +102,7 @@ class DataBuilder extends Builder
 	public function clean()
 	{
 		// Get our cast of characters.
-		$data_dir	= $this->project->getProjectDataDir();
+		$data_dir	= $this->project->getDataDirPath();
 		$data_files	= Filesystem::getDirectoryContents($data_dir);
 		
 		foreach( $data_files as $data_file ) {
@@ -110,7 +110,7 @@ class DataBuilder extends Builder
 			// Gather our facts here.
 			$data_info	= pathinfo($data_file);
 			$data_ext	= $data_info['extension'];
-			$data_rel	= str_replace($this->project->getProjectDir().DS, '', $data_file); // relative from the project dir.
+			$data_rel	= str_replace($this->project->getProjectDirPath().DS, '', $data_file); // relative from the project dir.
 			$data_media	= HandlerFactory::getMediaTypeForFileExtension($data_ext);
 			
 			// load the data file.
@@ -125,7 +125,7 @@ class DataBuilder extends Builder
 				$filename = pathinfo($data_file, PATHINFO_FILENAME).'.html';
 			}
 			
-			$output_path = $this->project->getPublicHtmlDir().DS.$filename;
+			$output_path = $this->project->getPublicHtmlDirPath().DS.$filename;
 			
 			Console::stdout('  Deleting public_html'.DS.$filename);
 			
