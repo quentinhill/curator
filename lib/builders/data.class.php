@@ -74,8 +74,6 @@ class DataBuilder extends Builder
 			$substitutions['data_title']			= $data['header']['title'];
 			$substitutions['data_content']			= $data['body'];
 			
-			print_r($substitutions);
-			
 			$tmpl_data = $tmpl_handler->handleData($template_path, $substitutions);
 			
 			// See if the file specifies a special name, otherwise hack
