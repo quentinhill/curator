@@ -1,0 +1,14 @@
+'site':
+  title: ~
+  tagline: ~
+  host: ~
+  analytics: ~
+  
+'styles':
+  combined: ~
+
+'scripts':
+  libs: ['jquery']
+  combined: ~
+
+'data': ~
