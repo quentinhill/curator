@@ -8,6 +8,9 @@
  * file that was distributed with this source code.
  */
 
+ini_set('display_errors', 'On');
+error_reporting(E_ALL | E_STRICT);
+
 /**
  * Defines shorthand notation for DIRECTORY_SEPARATOR.
  */
