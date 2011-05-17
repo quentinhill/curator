@@ -60,36 +60,4 @@ class Filesystem
 		
 		return $files;
 	}
-	
-	/**
-	 * Recursively copy a source directory to a destination directory.
-	 * 
-	 * @param string $source The source directory.
-	 * @param string $destination The destination directory.
-	 */
-	public static function recursiveCopy($source, $destination)
-	{
-		if( !is_dir($source) ) {
-			throw new Exception('Source for recursive copy is not a directory: '.$source);
-		}
-		
-		@mkdir($destination);
-		$dir = opendir($source);
-
-	    while( ($file = readdir($dir)) !== false ) {
-	        if( ($file != '.') && ($file != '..') ) {
-	            if( is_dir($source.DS.$file) ) {
-	            	Console::stdout('  Creating '.$file);
-					
-	                Filesystem::recursiveCopy($source.DS.$file, $destination.DS.$file);
-	            } else {
-	            	Console::stdout('  Copying '.$file);
-					
-	                copy($source.DS.$file, $destination.DS.$file);
-	            }
-	        }
-	    }
-		
-	    closedir($dir);
-	}
 }
