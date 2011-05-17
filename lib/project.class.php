@@ -288,9 +288,38 @@ class Project
 		
 		$manifest = $config->loadData($manifest_path);
 		
+		Console::stdout('Project Directory: '.$this->getProjectDir());
+		Console::stdout('');
+		
 		$data_builder = new DataBuilder();
 		$data_builder->setProject($this);
 		
 		$data_builder->build();
+	}
+	
+	/**
+	 * Cleans the current project.
+	 * 
+	 * @access public
+	 */
+	public function clean()
+	{
+		$manifest_path = $this->getProjectDir().DS.'manifest.yml';
+		
+		if( !is_file($manifest_path) ) {
+			throw new \Exception('Could not locate manifest at: '.$manifest_path);
+		}
+		
+		$config = new Config();
+		
+		$manifest = $config->loadData($manifest_path);
+		
+		Console::stdout('Project Directory: '.$this->getProjectDir());
+		Console::stdout('');
+		
+		$data_builder = new DataBuilder();
+		$data_builder->setProject($this);
+		
+		$data_builder->clean();
 	}
 }

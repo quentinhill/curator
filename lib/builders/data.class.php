@@ -30,9 +30,6 @@ class DataBuilder extends Builder
 		$data_dir	= $this->project->getProjectDataDir();
 		$data_files	= Filesystem::getDirectoryContents($data_dir);
 		
-		Console::stdout('Project Directory: '.$this->project->getProjectDir());
-		Console::stdout('');
-		
 		foreach( $data_files as $data_file ) {
 			
 			// Gather our facts here.
@@ -93,6 +90,47 @@ class DataBuilder extends Builder
 			
 			if( !file_put_contents($output_path, $tmpl_data) ) {
 				throw new \Exception('Could not write: '.$output_path);
+			}
+		}
+	}
+	
+	/**
+	 * Clean the data files from public_html.
+	 * 
+	 * @access public
+	 */
+	public function clean()
+	{
+		// Get our cast of characters.
+		$data_dir	= $this->project->getProjectDataDir();
+		$data_files	= Filesystem::getDirectoryContents($data_dir);
+		
+		foreach( $data_files as $data_file ) {
+			
+			// Gather our facts here.
+			$data_info	= pathinfo($data_file);
+			$data_ext	= $data_info['extension'];
+			$data_rel	= str_replace($this->project->getProjectDir().DS, '', $data_file); // relative from the project dir.
+			$data_media	= HandlerFactory::getMediaTypeForFileExtension($data_ext);
+			
+			// load the data file.
+			$handler	= HandlerFactory::getHandlerForMediaType($data_media);
+			$data		= $handler->handleData($data_file);
+			
+			// See if the file specifies a special name, otherwise hack
+			// together something resembling the data's filename.
+			if( isset($data['header']['url']) ) {
+				$filename = $data['header']['url'];
+			} else {
+				$filename = pathinfo($data_file, PATHINFO_FILENAME).'.html';
+			}
+			
+			$output_path = $this->project->getPublicHtmlDir().DS.$filename;
+			
+			Console::stdout('  Deleting public_html'.DS.$filename);
+			
+			if( !unlink($output_path) ) {
+				throw new \Exception('Could not delete: '.$output_path);
 			}
 		}
 	}
