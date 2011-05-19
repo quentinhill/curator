@@ -95,9 +95,9 @@ class Project
 	 */
 	public function getDataDirPath()
 	{
-		$data_dir = $this->projectDir.DS.'data';
+		$dir = $this->projectDir.DS.'data';
 		
-		return $data_dir;
+		return $dir;
 	}
 	
 	/**
@@ -108,22 +108,48 @@ class Project
 	 */
 	public function getTemplatesDirPath()
 	{
-		$templates_dir = $this->projectDir.DS.'templates';
+		$dir = $this->projectDir.DS.'templates';
 		
-		return $templates_dir;
+		return $dir;
 	}
 	
 	/**
-	 * Returns the full path to project/templates directory.
+	 * Returns the full path to project/styles directory.
 	 * 
-	 * @return string The full path to the project/templates directory.
+	 * @return string The full path to the project/styles directory.
 	 * @access public
 	 */
 	public function getStylesDirPath()
 	{
-		$styles_dir = $this->projectDir.DS.'styles';
+		$dir = $this->projectDir.DS.'styles';
 		
-		return $styles_dir;
+		return $dir;
+	}
+	
+	/**
+	 * Returns the full path to project/scripts directory.
+	 * 
+	 * @return string The full path to the project/scripts directory.
+	 * @access public
+	 */
+	public function getScriptsDirPath()
+	{
+		$dir = $this->projectDir.DS.'scripts';
+		
+		return $dir;
+	}
+	
+	/**
+	 * Returns the full path to project/scripts directory.
+	 * 
+	 * @return string The full path to the project/scripts directory.
+	 * @access public
+	 */
+	public function getScriptsLibsDirPath()
+	{
+		$dir = $this->getScriptsDirPath().DS.'libs';
+		
+		return $dir;
 	}
 	
 	/**
@@ -134,9 +160,9 @@ class Project
 	 */
 	public function getPublicHtmlDirPath()
 	{
-		$public_dir = $this->projectDir.DS.'public_html';
+		$dir = $this->projectDir.DS.'public_html';
 		
-		return $public_dir;
+		return $dir;
 	}
 	
 	/**
@@ -147,9 +173,35 @@ class Project
 	 */
 	public function getPublicStylesDirPath()
 	{
-		$public_dir = $this->getPublicHtmlDirPath().DS.'styles';
+		$dir = $this->getPublicHtmlDirPath().DS.'styles';
 		
-		return $public_dir;
+		return $dir;
+	}
+	
+	/**
+	 * Returns the full path to project/public_html/scripts directory.
+	 * 
+	 * @return string The full path to the project/public_html/scripts directory.
+	 * @access public
+	 */
+	public function getPublicScriptsDirPath()
+	{
+		$dir = $this->getPublicHtmlDirPath().DS.'scripts';
+		
+		return $dir;
+	}
+	
+	/**
+	 * Returns the full path to project/public_html/scripts/lib directory.
+	 * 
+	 * @return string The full path to the project/public_html/scripts/lib directory.
+	 * @access public
+	 */
+	public function getPublicScriptsLibsDirPath()
+	{
+		$dir = $this->getPublicScriptsDirPath().DS.'libs';
+		
+		return $dir;
 	}
 	
 	/**
@@ -317,18 +369,26 @@ class Project
 		Console::stdout('Project Directory: '.$this->getProjectDirPath());
 		Console::stdout('');
 		
-		$styles_builder = new StylesBuilder();
-		$styles_builder->setProject($this);
+		$builder = new StylesBuilder();
+		$builder->setProject($this);
 		
 		Console::stdout(' Building stylesheets…');
-		$styles_builder->build();
+		$builder->build();
 		Console::stdout('');
 		
-		$data_builder = new DataBuilder();
-		$data_builder->setProject($this);
+		$builder = new ScriptsBuilder();
+		$builder->setProject($this);
+		
+		Console::stdout(' Building scripts…');
+		$builder->build();
+		Console::stdout('');
+		
+		
+		$builder = new DataBuilder();
+		$builder->setProject($this);
 		
 		Console::stdout(' Building data…');
-		$data_builder->build();
+		$builder->build();
 		Console::stdout('');
 	}
 	
@@ -352,18 +412,25 @@ class Project
 		Console::stdout('Project Directory: '.$this->getProjectDirPath());
 		Console::stdout('');
 		
-		$styles_builder = new StylesBuilder();
-		$styles_builder->setProject($this);
+		$builder = new StylesBuilder();
+		$builder->setProject($this);
 		
-		Console::stdout(' Cleaning stylesheets…');
-		$styles_builder->clean();
+		Console::stdout(' Cleaning styles…');
+		$builder->clean();
 		Console::stdout('');
 		
-		$data_builder = new DataBuilder();
-		$data_builder->setProject($this);
+		$builder = new ScriptsBuilder();
+		$builder->setProject($this);
+		
+		Console::stdout(' Cleaning scripts…');
+		$builder->clean();
+		Console::stdout('');
+		
+		$builder = new DataBuilder();
+		$builder->setProject($this);
 		
 		Console::stdout(' Cleaning data…');
-		$data_builder->clean();
+		$builder->clean();
 		Console::stdout('');
 	}
 }

@@ -8,7 +8,12 @@
   combined: ~
 
 'scripts':
-  libs: ['jquery']
+  libs: ~
   combined: ~
 
-'data': ~
+'data':
+  title: ~
+  created: ~
+  url: ~
+  next_link: ~
+  prev_link: ~

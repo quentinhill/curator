@@ -2,5 +2,5 @@
 .settings
 .buildpath
 .project
-third-party/*
 !.gitignore
+*.esproj

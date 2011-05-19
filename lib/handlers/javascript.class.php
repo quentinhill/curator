@@ -10,13 +10,13 @@
  namespace Curator;
 
 /**
- * MarkdownHandler class
+ * JavaScriptHandler class
  * 
  * @package		curator
  * @subpackage	handlers
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class MarkdownHandler implements Handler
+class JavaScriptHandler implements Handler
 {
 	/**
      * Return the name of the Handler.
@@ -26,7 +26,7 @@ class MarkdownHandler implements Handler
      */
 	public static function getName()
 	{
-		return 'Markdown';
+		return 'JavaScriptHandler';
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class MarkdownHandler implements Handler
      */
 	public static function getMediaType()
 	{
-		return 'text/markdown';
+		return 'text/javascript';
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class MarkdownHandler implements Handler
      */
     public static function getExtensions()
 	{
-		return array('md', 'markdown');
+		return array('js', 'javascript');
 	}
 	
 	/**
@@ -61,11 +61,13 @@ class MarkdownHandler implements Handler
      */
 	public function handleData($data, $options = array())
 	{
-		include_once(CURATOR_THIRDPARTY_DIR.DS.'php-markdown-extra'.DS.'markdown.php');
-		include_once(CURATOR_THIRDPARTY_DIR.DS.'php-smartypants-typographer'.DS.'smartypants.php');
-		
+		$default_options = array(
+			'minify' => true,
+		);
 		
 		$result = null;
+		
+		$options = array_merge($default_options, $options);
 		
 		try {
 			
@@ -73,20 +75,23 @@ class MarkdownHandler implements Handler
 				$data = file_get_contents($data);
 				
 				if( $data === false ) {
-					throw new \Exception('Could not load file: '.$data);
+					throw new \Exception('Could not load CSS: '.$data);
 				}
 			}
 			
-			$result = (\SmartyPants(\Markdown($data)));
+			require_once CURATOR_THIRDPARTY_DIR.DS.'jsmin'.DS.'jsmin.php';
+			
+			if( $options['minify'] ) {
+				$result = \JSMin::minify($data);
+			}
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not handle Mardkwon data:');
-			Console::stderr('   '.$e->getMessage());
+			Console::stderr('** Could not handle CSS data:');
+			Console::stderr('  '.$e->getMessage());
 			
 		}
 		
 		return $result;
 	}
 }
-	

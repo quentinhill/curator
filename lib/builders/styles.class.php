@@ -33,18 +33,18 @@ class StylesBuilder extends Builder
 		$css_data = '';
 		$raw_size = 0;
 		
-		if( is_array($style_options['combined']) ) {
-			foreach( $style_options['combined'] as $filename ) {
+		if( is_array($style_options['combine']) ) {
+			foreach( $style_options['combine'] as $filename ) {
 				$filepath = $this->project->getStylesDirPath().DS.$filename;
 				$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $filepath);
 				$raw_size = $raw_size + filesize($filepath);
 				
 				Console::stdout('  Loading '.$rel_path);
 				
-				$css_data = $css_data."\n\n".file_get_contents($filepath);
+				$css_data = $css_data."\n".file_get_contents($filepath);
 			}
 			
-			Console::stdout('  Minimizing output…');
+			Console::stdout('  Minimizing styles…');
 			
 			$handler = HandlerFactory::getHandlerForMediaType('text/css');
 			

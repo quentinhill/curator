@@ -7,4 +7,8 @@ data:
   template: 'default.tmpl'
 
 styles:
-  combined: ['fonts.css', 'baseline.css', 'mobile.css', 'print.css', 'screen.css']
+  combine: ['fonts.css', 'baseline.css', 'mobile.css', 'print.css', 'screen.css']
+
+scripts:
+  libraries: ['jquery.js']
+  combine: ['plugins.js', 'site.js']
