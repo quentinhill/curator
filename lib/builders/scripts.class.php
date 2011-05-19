@@ -112,6 +112,34 @@ class ScriptsBuilder extends Builder
 	 */
 	public function clean()
 	{
+		$dir = $this->project->getPublicScriptsDirPath();
+		$files = FileSystem::getDirectoryContents($dir, array('directories' => false));
 		
+		foreach( $files as $path ) {
+			$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $path);
+			
+			if( file_exists($path) ) {
+				Console::stdout('  Deleting '.$rel_path);
+				
+				if( !unlink($path) ) {
+					throw new \Exception('Could not delete: '.$path);
+				}
+			}
+		}
+		
+		$dir = $this->project->getPublicScriptsLibsDirPath();
+		$files = FileSystem::getDirectoryContents($dir, array('directories' => false));
+		
+		foreach( $files as $path ) {
+			$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $path);
+			
+			if( file_exists($path) ) {
+				Console::stdout('  Deleting '.$rel_path);
+				
+				if( !unlink($path) ) {
+					throw new \Exception('Could not delete: '.$path);
+				}
+			}
+		}
 	}
 }

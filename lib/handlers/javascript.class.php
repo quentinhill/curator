@@ -79,7 +79,7 @@ class JavaScriptHandler implements Handler
 				}
 			}
 			
-			require_once CURATOR_THIRDPARTY_DIR.DS.'jsmin'.DS.'jsmin.php';
+			require_once CURATOR_THIRDPARTY_DIR.DS.'jsmin-php'.DS.'jsmin.php';
 			
 			if( $options['minify'] ) {
 				$result = \JSMin::minify($data);

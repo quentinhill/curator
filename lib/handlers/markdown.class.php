@@ -61,8 +61,8 @@ class MarkdownHandler implements Handler
      */
 	public function handleData($data, $options = array())
 	{
-		include_once(CURATOR_THIRDPARTY_DIR.DS.'php-markdown-extra'.DS.'markdown.php');
-		include_once(CURATOR_THIRDPARTY_DIR.DS.'php-smartypants-typographer'.DS.'smartypants.php');
+		include_once(CURATOR_THIRDPARTY_DIR.DS.'php-markdown-'.DS.'markdown.php');
+		include_once(CURATOR_THIRDPARTY_DIR.DS.'php-smartypants'.DS.'smartypants.php');
 		
 		
 		$result = null;
