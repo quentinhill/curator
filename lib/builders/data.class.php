@@ -21,14 +21,22 @@ class DataBuilder extends Builder
 	/**
 	 * Build the data files.
 	 * 
-	 * @return void
+	 * This function goes through the contents of the project's data directory,
+	 * and attempts to build any files it encounters. Directories are not
+	 * supported, and will be skipped.
+	 * 
+	 * Building a file is the process of loading a source data file, handling
+	 * its contents, applying that to a template, then writing the finished
+	 * template to disk.
+	 * 
 	 * @access public
 	 */
 	public function build()
 	{
 		// Get our cast of characters.
 		$data_dir	= $this->project->getDataDirPath();
-		$data_files	= Filesystem::getDirectoryContents($data_dir);
+		$data_files	= Filesystem::getDirectoryContents($data_dir, array('directories' => false));
+		$manifest = $this->project->getManifestData();
 		
 		foreach( $data_files as $data_file ) {
 			
@@ -44,14 +52,24 @@ class DataBuilder extends Builder
 			$handler	= HandlerFactory::getHandlerForMediaType($data_media);
 			$data		= $handler->handleData($data_file);
 			
+			// Stash the data stuff in the template data.
+			TemplateData::setValue('data', 'title', $data['header']['title']);
+			TemplateData::setValue('data', 'created', $data['header']['created']);
+			TemplateData::setValue('data', 'next_link', $data['header']['next_link']);
+			TemplateData::setValue('data', 'prev_link', $data['header']['prev_link']);
+			TemplateData::setValue('data', 'body', $data['body']);
+			TemplateData::setValue('site', 'title', $manifest['site']['title']);
+			TemplateData::setValue('site', 'tagline', $manifest['site']['tagline']);
+			TemplateData::setValue('site', 'host', $manifest['site']['host']);
+			TemplateData::setValue('site', 'analytics', $manifest['site']['analytics']);
+			
+			
 			// Figure out what template to use. If the file has a specific
 			// one, use it. Otherwise, grab the one specified in the
 			// project manifest.
 			if( isset($data['header']['template']) ) {
 				$template_name = $data['header']['template'];
 			} else {
-				$manifest = $this->project->getManifestData();
-				
 				$template_name = $manifest['data']['template'];
 			}
 			
@@ -68,11 +86,34 @@ class DataBuilder extends Builder
 			
 			// •• This needs to be defined somehow!
 			$substitutions['styles_combined_url']	= TemplateData::getValue('styles', 'combined');
-			$substitutions['site_title']			= $manifest['template']['title'];
-			$substitutions['site_tagline']			= $manifest['template']['tagline'];
-			$substitutions['site_host']				= $manifest['template']['host'];
-			$substitutions['data_title']			= $data['header']['title'];
-			$substitutions['data_content']			= $data['body'];
+			$substitutions['site_title']			= TemplateData::getValue('site', 'title');
+			$substitutions['site_tagline']			= TemplateData::getValue('site', 'tagline');
+			$substitutions['site_host']				= TemplateData::getValue('site', 'host');
+			$substitutions['site_analytics']		= TemplateData::getValue('site', 'analytics');
+			$substitutions['data_title']			= TemplateData::getValue('data', 'title');
+			$substitutions['data_created_date']		= date('l, F j, Y', TemplateData::getValue('data', 'created'));
+			$substitutions['data_content']			= TemplateData::getValue('data', 'body');
+			$substitutions['scripts_combined_url']	= TemplateData::getValue('scripts', 'combined');
+			$substitutions['data_next_link']		= '';
+			$substitutions['data_prev_link']		= '';
+			
+			$libs = TemplateData::getValue('scripts', 'libs');
+			
+			foreach( $libs as $lib => $url ) {
+				$substitutions['scripts_libs_'.$lib] = $url;
+			}
+			
+			if( TemplateData::getValue('data', 'next_link') !== null ) {
+				$link = '<a href="'.TemplateData::getValue('data', 'next_link').'">Next</a>';
+				
+				$substitutions['data_next_link']	= $link;
+			}
+			
+			if( TemplateData::getValue('data', 'prev_link') !== null ) {
+				$link = '<a href="'.TemplateData::getValue('data', 'prev_link').'">Previous</a>';
+				
+				$substitutions['data_prev_link']	= $link;
+			}
 			
 			$tmpl_data = $tmpl_handler->handleData($template_path, $substitutions);
 			

@@ -87,10 +87,11 @@ class TemplateData
 		$self = TemplateData::singleton();
 		$value = null;
 		
+		$group = strval($group);
+		$key = strval($key);
+		
 		if( isset($self->data[$group][$key]) ) {
 			$value = $self->data[$group][$key];
-		} else {
-			throw new \Exception('Unknown group: '.$group.', and key: '.$key);
 		}
 		
 		return $value;

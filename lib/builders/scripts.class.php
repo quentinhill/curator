@@ -102,6 +102,7 @@ class ScriptsBuilder extends Builder
 		
 		Console::stdout('  Characters: '.strlen($script_data));
 		Console::stdout('  Wrote '.$out_rel.' ('.$a.'%)');
+		
 		TemplateData::setValue('scripts', 'combined', $out_url);
 	}
 	

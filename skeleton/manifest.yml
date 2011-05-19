@@ -1,4 +1,4 @@
-template:
+site:
   title: 'Untitled Curator Project'
   tagline: 'Something witty goes here.'
   host: 'localhost'
