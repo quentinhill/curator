@@ -101,6 +101,19 @@ class Project
 	}
 	
 	/**
+	 * Returns the full path to project/media directory.
+	 * 
+	 * @return string The full path to the project/media directory.
+	 * @access public
+	 */
+	public function getMediaDirPath()
+	{
+		$dir = $this->projectDir.DS.'media';
+		
+		return $dir;
+	}
+	
+	/**
 	 * Returns the full path to project/templates directory.
 	 * 
 	 * @return string The full path to the project/templates directory.
@@ -161,6 +174,19 @@ class Project
 	public function getPublicHtmlDirPath()
 	{
 		$dir = $this->projectDir.DS.'public_html';
+		
+		return $dir;
+	}
+	
+	/**
+	 * Returns the full path to project/public_html/media directory.
+	 * 
+	 * @return string The full path to the project/public_html/media directory.
+	 * @access public
+	 */
+	public function getPublicMediaDirPath()
+	{
+		$dir = $this->getPublicHtmlDirPath().DS.'media';
 		
 		return $dir;
 	}
@@ -330,12 +356,9 @@ class Project
 			
 			$filename = $source_info['filename'];
 			
-			foreach( $this->skeletonConfig['skip'] as $skip_filter ) {
-				if( preg_match($skip_filter, $filename) !== 0 ) {
-					return;
-				}
+			if( $this->shouldSkip($filename) ) {
+				return;
 			}
-			
 		}
 		
 		if( (file_exists($destination_file) === false) && (is_file($destination_file) === false) ) {
@@ -390,6 +413,14 @@ class Project
 		Console::stdout(' Building data…');
 		$builder->build();
 		Console::stdout('');
+		
+		
+		$builder = new MediaBuilder();
+		$builder->setProject($this);
+		
+		Console::stdout(' Building media…');
+		$builder->build();
+		Console::stdout('');
 	}
 	
 	/**
@@ -432,5 +463,31 @@ class Project
 		Console::stdout(' Cleaning data…');
 		$builder->clean();
 		Console::stdout('');
+		
+		$builder = new MediaBuilder();
+		$builder->setProject($this);
+		
+		Console::stdout(' Cleaning media…');
+		$builder->clean();
+		Console::stdout('');
+	}
+	
+	/**
+	 * Test a path to see if it should be skipped.
+	 * 
+	 * @param string $path The path to test.
+	 * @access protected
+	 */
+	public function shouldSkip($path)
+	{
+		$patterns = $this->skeletonConfig['skip'];
+		
+		foreach( $patterns as $pattern ) {
+			if( fnmatch($pattern, $path) ) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

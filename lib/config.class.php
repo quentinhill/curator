@@ -24,8 +24,9 @@ class Config
 	private $config = array();
 	
 	/**
-     * Return the name of the Handler.
+     * Load $data.
      * 
+	 * @param mixed Either the path to a file, or the raw data to load.
      * @return array
 	 * @access public
      */
