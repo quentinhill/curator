@@ -1,2 +1,10 @@
+##
+ # This file is part of the Curator package.
+ # Copyright © 2011 Quentin Hill <quentin@quentinhill.com>
+ # 
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+ ##
+
 directories: ['audio', 'documents', 'fonts', 'images', 'video']
 skip: ['*.psd']

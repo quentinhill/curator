@@ -8,6 +8,7 @@
  * file that was distributed with this source code.
  */
 
+ // By default, we want all warnings and errors shown.
 ini_set('display_errors', 'On');
 error_reporting(E_ALL | E_STRICT);
 
