@@ -52,7 +52,7 @@ class StylesBuilder extends Builder
 			
 			$hash = hash('sha256', $css_data);
 			
-			$output_path = $project->getPublicStylesDirPath().DS.'output-'.$hash.'.css';
+			$output_path = $project->getPublicStylesDirPath().DS.'combined-'.$hash.'.css';
 			$rel_output = str_replace($this->project->getProjectDirPath().DS, '', $output_path);
 			$url_output = str_replace($this->project->getPublicHtmlDirPath(), '', $output_path);
 			
