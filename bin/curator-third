@@ -1,0 +1,14 @@
+#!/bin/bash
+##
+ # This file is part of the Curator package.
+ # Copyright © 2011 Quentin Hill <quentin@quentinhill.com>
+ # 
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+ ##
+
+LIB=${0/%curator-third/}
+
+exec php -q ${LIB}curator-third.php "$@"
+
+exit;
