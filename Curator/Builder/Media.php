@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator\Builder;
 
 /**
- * MediaBuilder class
+ * Media builder.
  * 
- * @package		curator
- * @subpackage	builders
+ * @package		Curator
+ * @subpackage	Builder
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class MediaBuilder extends Builder
+class Media extends \Curator\Builder
 {
 	/**
 	 * The config data for the MediaBuilder.
@@ -34,9 +34,9 @@ class MediaBuilder extends Builder
 	 */
 	public function __construct()
 	{
-		$config = new Config();
+		$config = new \Curator\Config();
 		
-		$this->config = $config->loadData(CURATOR_CONFIG_DIR.DS.'media.yml');
+		$this->config = $config->loadData(CURATOR_APP_DIR.DS.'Config'.DS.'media.yml');
 	}
 	
 	/**
@@ -51,8 +51,8 @@ class MediaBuilder extends Builder
 			$dir_path = $this->project->getMediaDirPath().DS.$dirname;
 			$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $dir_path);
 			
-			Console::stdout(' Building '.$rel_path);
-			$dir_contents	= Filesystem::getDirectoryContents($dir_path);
+			\Curator\Console::stdout(' Building '.$rel_path);
+			$dir_contents	= \Curator\FileSystem::getDirectoryContents($dir_path);
 		
 			foreach( $dir_contents as $file_path ) {
 				$filename = pathinfo($file_path, PATHINFO_BASENAME);
@@ -60,7 +60,7 @@ class MediaBuilder extends Builder
 				$out_path = $this->project->getPublicHtmlDirPath().DS.$rel_path;
 				
 				if( !$this->shouldSkip($file_path) ) {
-					Console::stdout('  Copying '.$rel_path);
+					\Curator\Console::stdout('  Copying '.$rel_path);
 					
 					if( !copy($file_path, $out_path) ) {
 						throw new \Exception('Could not copy '.$file_path.' to '.$out_path);
@@ -81,14 +81,14 @@ class MediaBuilder extends Builder
 			$dir_path = $this->project->getPublicMediaDirPath().DS.$dirname;
 			$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $dir_path);
 			
-			Console::stdout(' Cleaning '.$rel_path);
-			$dir_contents	= Filesystem::getDirectoryContents($dir_path);
+			\Curator\Console::stdout(' Cleaning '.$rel_path);
+			$dir_contents	= \Curator\FileSystem::getDirectoryContents($dir_path);
 		
 			foreach( $dir_contents as $file_path ) {
 				$filename = pathinfo($file_path, PATHINFO_BASENAME);
 				$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $file_path);
 				
-				Console::stdout('  Deleting '.$rel_path);
+				\Curator\Console::stdout('  Deleting '.$rel_path);
 				
 				unlink($file_path);
 			}

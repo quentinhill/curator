@@ -10,8 +10,8 @@
 namespace Curator;
 
 // Load our core files.
-require_once 'autoload.class.php';
-require_once 'console.class.php';
+require_once CURATOR_APP_DIR.DS.CURATOR_PACKAGE_NAME.DS.'Console.php';
+require_once CURATOR_APP_DIR.DS.CURATOR_PACKAGE_NAME.DS.'Autoload.php';
 
  /**
   * Preps the application for running, then runs it. If this function is called more than once, an E_USER_ERROR is triggered.
@@ -19,7 +19,7 @@ require_once 'console.class.php';
   * @param string $root_dir The path to the root of the installation.
   * @return void
   */
-function StartCurator($root_dir)
+function StartCurator()
 {
 	static $did_start = false;
 	
@@ -34,7 +34,7 @@ function StartCurator($root_dir)
 		// configure the autoloader.
 		try {
 			
-			$autoload->setBaseDir($root_dir.DS.'lib');
+			$autoload->setBaseDir(CURATOR_APP_DIR);
 			$autoload->register();
 			
 		} catch( \Exception $e ) {

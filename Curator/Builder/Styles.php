@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator\Builder;
 
 /**
- * StylesBuilder class
+ * Styles builder.
  * 
- * @package		curator
- * @subpackage	builders
+ * @package		Curator
+ * @subpackage	Builder
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class StylesBuilder extends Builder
+class Styles extends \Curator\Builder
 {
 	/**
 	 * Build the stylesheet files.
@@ -39,14 +39,14 @@ class StylesBuilder extends Builder
 				$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $filepath);
 				$raw_size = $raw_size + filesize($filepath);
 				
-				Console::stdout('  Loading '.$rel_path);
+				\Curator\Console::stdout('  Loading '.$rel_path);
 				
-				$css_data = $css_data."\n".file_get_contents($filepath);
+				$css_data = $css_data.NL.NL.NL.file_get_contents($filepath);
 			}
 			
-			Console::stdout('  Minimizing styles…');
+			\Curator\Console::stdout('  Minimizing styles…');
 			
-			$handler = HandlerFactory::getHandlerForMediaType('text/css');
+			$handler = \Curator\Handler\Factory::getHandlerForMediaType('text/css');
 			
 			$css_data = $handler->handleData($css_data);
 			
@@ -63,11 +63,11 @@ class StylesBuilder extends Builder
 			$output_size = filesize($output_path);
 			$a = sprintf('%d', (100 * ($output_size/$raw_size)));
 			
-			Console::stdout('  wrote '.$rel_output.' ('.$a.'%)');
+			\Curator\Console::stdout('  wrote '.$rel_output.' ('.$a.'%)');
 			
-			TemplateData::setValue('styles', 'combined', $url_output);
+			\Curator\TemplateData::setValue('styles', 'combined', $url_output);
 		} else {
-			Console::stdout('  Nothing to do.');
+			\Curator\Console::stdout('  Nothing to do.');
 		}
 	}
 	
@@ -79,13 +79,13 @@ class StylesBuilder extends Builder
 	public function clean()
 	{
 		$dir = $this->project->getPublicStylesDirPath();
-		$files = FileSystem::getDirectoryContents($dir, array('directories' => false));
+		$files = \Curator\FileSystem::getDirectoryContents($dir, array('directories' => false));
 		
 		foreach( $files as $path ) {
 			$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $path);
 			
 			if( file_exists($path) ) {
-				Console::stdout('  Deleting '.$rel_path);
+				\Curator\Console::stdout('  Deleting '.$rel_path);
 				
 				if( !unlink($path) ) {
 					throw new \Exception('Could not delete: '.$path);

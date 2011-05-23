@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator;
 
 /**
  * Project class
@@ -61,7 +61,7 @@ class Project
 	public function __construct($project_dir, $skeleton_dir = null)
 	{
 		if( $skeleton_dir === null ) {
-			$skeleton_dir = CURATOR_SKELETON_DIR;
+			$skeleton_dir = CURATOR_APP_DIR.DS.'Skeleton';
 		} else {
 			$skeleton_dir = strval($skeleton_dir);
 		}
@@ -73,7 +73,7 @@ class Project
 		
 		$config = new Config();
 		
-		$this->skeletonConfig = $config->loadData(CURATOR_CONFIG_DIR.DS.'skeleton.yml');
+		$this->skeletonConfig = $config->loadData(CURATOR_APP_DIR.DS.'Config'.DS.'skeleton.yml');
 	}
 	
 	/**
@@ -251,8 +251,8 @@ class Project
 	{
 		if( $this->manifest === null ) {
 			$manifest_path = $this->getProjectDirPath().DS.'manifest.yml';
-			$ext = HandlerFactory::getMediaTypeForFileExtension(pathinfo($manifest_path, PATHINFO_EXTENSION));
-			$handler = HandlerFactory::getHandlerForMediaType($ext);
+			$ext = \Curator\Handler\Factory::getMediaTypeForFileExtension(pathinfo($manifest_path, PATHINFO_EXTENSION));
+			$handler = \Curator\Handler\Factory::getHandlerForMediaType($ext);
 			
 			$manifest = $handler->handleData($manifest_path);
 			
@@ -274,8 +274,8 @@ class Project
 		$skeleton_dir	= $this->getSkeletonDirPath();
 		
 		// remind us where we are dumping all this
-		Console::stdout('Project directory: '.$project_dir);
-		Console::stdout('');
+		\Curator\Console::stdout('Project directory: '.$project_dir);
+		\Curator\Console::stdout('');
 		
 		try {
 			
@@ -283,8 +283,8 @@ class Project
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not install \''.$skeleton_dir.'\' into \''.$project_dir.'\'');
-			Console::stderr('   '.$e->getMessage());
+			\Curator\Console::stderr('** Could not install \''.$skeleton_dir.'\' into \''.$project_dir.'\'');
+			\Curator\Console::stderr('   '.$e->getMessage());
 			
 		}
 	}
@@ -306,7 +306,7 @@ class Project
 		
 		// See if the destination exists.
 		if( (file_exists($destination_dir) === false) && (is_dir($destination_dir) === false) ) {
-			Console::stdout('  Creating '.$source_rel.DS);
+			\Curator\Console::stdout('  Creating '.$source_rel.DS);
 			
 			// Create the directory.
 			if( !mkdir($destination_dir, 0755) ) {
@@ -362,7 +362,7 @@ class Project
 		}
 		
 		if( (file_exists($destination_file) === false) && (is_file($destination_file) === false) ) {
-			Console::stdout('  Copying '.$source_rel);
+			\Curator\Console::stdout('  Copying '.$source_rel);
 			
 			touch($destination_file);
 			
@@ -389,38 +389,38 @@ class Project
 		
 		$manifest = $config->loadData($manifest_path);
 		
-		Console::stdout('Project Directory: '.$this->getProjectDirPath());
-		Console::stdout('');
+		\Curator\Console::stdout('Project Directory: '.$this->getProjectDirPath());
+		\Curator\Console::stdout('');
 		
-		$builder = new StylesBuilder();
+		$builder = new \Curator\Builder\Styles();
 		$builder->setProject($this);
 		
-		Console::stdout(' Building stylesheets…');
+		\Curator\Console::stdout(' Building stylesheets…');
 		$builder->build();
-		Console::stdout('');
+		\Curator\Console::stdout('');
 		
-		$builder = new ScriptsBuilder();
+		$builder = new \Curator\Builder\Scripts();
 		$builder->setProject($this);
 		
-		Console::stdout(' Building scripts…');
+		\Curator\Console::stdout(' Building scripts…');
 		$builder->build();
-		Console::stdout('');
+		\Curator\Console::stdout('');
 		
 		
-		$builder = new DataBuilder();
+		$builder = new \Curator\Builder\Data();
 		$builder->setProject($this);
 		
-		Console::stdout(' Building data…');
+		\Curator\Console::stdout(' Building data…');
 		$builder->build();
-		Console::stdout('');
+		\Curator\Console::stdout('');
 		
 		
-		$builder = new MediaBuilder();
+		$builder = new \Curator\Builder\Media();
 		$builder->setProject($this);
 		
-		Console::stdout(' Building media…');
+		\Curator\Console::stdout(' Building media…');
 		$builder->build();
-		Console::stdout('');
+		\Curator\Console::stdout('');
 	}
 	
 	/**
@@ -440,36 +440,36 @@ class Project
 		
 		$manifest = $config->loadData($manifest_path);
 		
-		Console::stdout('Project Directory: '.$this->getProjectDirPath());
-		Console::stdout('');
+		\Curator\Console::stdout('Project Directory: '.$this->getProjectDirPath());
+		\Curator\Console::stdout('');
 		
-		$builder = new StylesBuilder();
+		$builder = new \Curator\Builder\Styles();
 		$builder->setProject($this);
 		
-		Console::stdout(' Cleaning styles…');
+		\Curator\Console::stdout(' Cleaning styles…');
 		$builder->clean();
-		Console::stdout('');
+		\Curator\Console::stdout('');
 		
-		$builder = new ScriptsBuilder();
+		$builder = new \Curator\Builder\Scripts();
 		$builder->setProject($this);
 		
-		Console::stdout(' Cleaning scripts…');
+		\Curator\Console::stdout(' Cleaning scripts…');
 		$builder->clean();
-		Console::stdout('');
+		\Curator\Console::stdout('');
 		
-		$builder = new DataBuilder();
+		$builder = new \Curator\Builder\Data();
 		$builder->setProject($this);
 		
-		Console::stdout(' Cleaning data…');
+		\Curator\Console::stdout(' Cleaning data…');
 		$builder->clean();
-		Console::stdout('');
+		\Curator\Console::stdout('');
 		
-		$builder = new MediaBuilder();
+		$builder = new \Curator\Builder\Media();
 		$builder->setProject($this);
 		
-		Console::stdout(' Cleaning media…');
+		\Curator\Console::stdout(' Cleaning media…');
 		$builder->clean();
-		Console::stdout('');
+		\Curator\Console::stdout('');
 	}
 	
 	/**

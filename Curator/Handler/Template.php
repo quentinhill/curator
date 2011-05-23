@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator\Handler;
 
 /**
- * StyleSheetHandler class
+ * BasicTemplateHandler class
  * 
  * @package		curator
  * @subpackage	handlers
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class StyleSheetHandler implements Handler
+class Template implements \Curator\Handler
 {
 	/**
      * Return the name of the Handler.
@@ -26,7 +26,7 @@ class StyleSheetHandler implements Handler
      */
 	public static function getName()
 	{
-		return 'StyleSheetHandler';
+		return 'Template';
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class StyleSheetHandler implements Handler
      */
 	public static function getMediaType()
 	{
-		return 'text/css';
+		return 'text/template';
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class StyleSheetHandler implements Handler
      */
     public static function getExtensions()
 	{
-		return array('css');
+		return array('tmpl');
 	}
 	
 	/**
@@ -61,35 +61,35 @@ class StyleSheetHandler implements Handler
      */
 	public function handleData($data, $options = array())
 	{
-		$default_options = array(
-			'minify' => true,
-		);
 		
 		$result = null;
 		
-		$options = array_merge($default_options, $options);
-		
 		try {
 			
-			if( strpos($data, "\n") === false && is_file($data) ) {
+			if( strpos($data, NL) === false && is_file($data) ) {
 				$data = file_get_contents($data);
 				
 				if( $data === false ) {
-					throw new \Exception('Could not load CSS: '.$data);
+					throw new \Exception('Could not load data: '.$data);
 				}
 			}
 			
-			require CURATOR_THIRDPARTY_DIR.DS.'css-compressor'.DS.'src'.DS.'CSSCompression.php';
+			foreach( $options as $key => $value ) {
+				$needle = '%%__'.strtoupper($key).'__%%';
+				
+				$data = str_replace($needle, $value, $data);
+			}
 			
-			$result = \CSSCompression::express($data, 'sane');
+			$result = $data;
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not handle CSS data:');
-			Console::stderr('  '.$e->getMessage());
+			Console::stderr('** Could not handle basic template data:');
+			Console::stderr('   '.$e->getMessage());
 			
 		}
 		
 		return $result;
 	}
 }
+	

@@ -27,42 +27,27 @@ if( !defined('NL') ) {
 }
 
 /**
+ * The name of the Curator package.
+ */
+if( !defined('CURATOR_PACKAGE_NAME') ) {
+	define('CURATOR_PACKAGE_NAME', 'Curator');
+}
+
+/**
+ * The current version of the Curator package.
+ */
+if( !defined('CURATOR_CURRENT_VERSION') ) {
+	define('CURATOR_CURRENT_VERSION', 'alpha');
+}
+
+/**
  * Defines the full path to the root of the Curator installation.
  */
-if( !defined('CURATOR_ROOT_DIR') ) {
-	define('CURATOR_ROOT_DIR', dirname(dirname(__FILE__)));
+if( !defined('CURATOR_APP_DIR') ) {
+	define('CURATOR_APP_DIR', dirname(dirname(__FILE__)));
 }
-
-/**
- * Defines the full path to the config dir of the Curator installation.
- */
-if( !defined('CURATOR_CONFIG_DIR') ) {
-	define('CURATOR_CONFIG_DIR', CURATOR_ROOT_DIR.DS.'config');
-}
-
-/**
- * Defines the full path to the lib dir of the Curator installation.
- */
-if( !defined('CURATOR_LIB_DIR') ) {
-	define('CURATOR_LIB_DIR', CURATOR_ROOT_DIR.DS.'lib');
-}
-
-/**
- * Defines the full path to the skeleton dir of the Curator installation.
- */
-if( !defined('CURATOR_SKELETON_DIR') ) {
-	define('CURATOR_SKELETON_DIR', CURATOR_ROOT_DIR.DS.'skeleton');
-}
-
-/**
- * Defines the full path to the skeleton dir of the Curator installation.
- */
-if( !defined('CURATOR_THIRDPARTY_DIR') ) {
-	define('CURATOR_THIRDPARTY_DIR', CURATOR_ROOT_DIR.DS.'third-party');
-}
-
 // Load our bootstrap file.
-require_once realpath(CURATOR_LIB_DIR.DS.'bootstrap.inc.php');
+require_once realpath(CURATOR_APP_DIR.DS.CURATOR_PACKAGE_NAME.DS.'Bootstrap.php');
 
 // Get her going.
-exit(\Curator\StartCurator(CURATOR_ROOT_DIR));
+exit(\Curator\StartCurator());

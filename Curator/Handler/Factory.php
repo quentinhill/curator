@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator\Handler;
 
 /**
- * HandlerFactory class
+ * Factory class
  * 
  * @package		curator
  * @subpackage	handlers
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class HandlerFactory
+class Factory
 {
 	/**
 	 * Handler registry.
@@ -56,7 +56,7 @@ class HandlerFactory
 	 */
 	public static function getMediaTypeForFileExtension($extension)
 	{
-		$registry = HandlerFactory::loadHandlers();
+		$registry = Factory::loadHandlers();
 		$handler = null;
 		$media_type = null;
 		
@@ -80,7 +80,7 @@ class HandlerFactory
 	public static function getHandlerForMediaType($media_type)
 	{
 		$object = null;
-		$registry = HandlerFactory::loadHandlers();
+		$registry = Factory::loadHandlers();
 		$handler_info = null;
 		
 		if( empty($media_type) ) {
@@ -109,16 +109,20 @@ class HandlerFactory
 	{
 		$registry = array();
 		
-		if( HandlerFactory::$registry === null ) {
+		if( Factory::$registry === null ) {
 			
-			$handlers = Filesystem::getDirectoryContents(CURATOR_LIB_DIR.DS.'handlers');
+			$handlers = \Curator\FileSystem::getDirectoryContents(dirname(__FILE__));
 			
 			foreach( $handlers as $file_path ) {
 				$file_info = pathinfo($file_path);
 				$file_name = explode('.', $file_info['filename'], 2);
 				$file_name = $file_name[0];
 				
-				$class_name = '\\Curator\\'.ucfirst($file_name).'Handler';
+				if( $file_name === 'Factory' ) {
+					continue;
+				}
+				
+				$class_name = '\\Curator\\Handler\\'.$file_name;
 				
 				require_once $file_path;
 				
@@ -134,11 +138,11 @@ class HandlerFactory
 				);
 			}
 		} else {
-			$registry = HandlerFactory::$registry;
+			$registry = Factory::$registry;
 		}
 		
-		HandlerFactory::$registry = $registry;
+		Factory::$registry = $registry;
 		
-		return HandlerFactory::$registry;
+		return Factory::$registry;
 	}
 }

@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator\Handler;
 
 /**
- * BasicTemplateHandler class
+ * Curd handler.
  * 
- * @package		curator
- * @subpackage	handlers
+ * @package		Curator
+ * @subpackage	Handler
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class BasicTemplateHandler implements Handler
+class CURD implements \Curator\Handler
 {
 	/**
      * Return the name of the Handler.
@@ -26,7 +26,7 @@ class BasicTemplateHandler implements Handler
      */
 	public static function getName()
 	{
-		return 'BasicTemplateHandler';
+		return 'CURD';
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class BasicTemplateHandler implements Handler
      */
 	public static function getMediaType()
 	{
-		return 'text/basic-template';
+		return 'text/curd';
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class BasicTemplateHandler implements Handler
      */
     public static function getExtensions()
 	{
-		return array('tmpl');
+		return array('curd');
 	}
 	
 	/**
@@ -66,7 +66,7 @@ class BasicTemplateHandler implements Handler
 		
 		try {
 			
-			if( strpos($data, "\n") === false && is_file($data) ) {
+			if( strpos($data, NL) === false && is_file($data) ) {
 				$data = file_get_contents($data);
 				
 				if( $data === false ) {
@@ -74,18 +74,27 @@ class BasicTemplateHandler implements Handler
 				}
 			}
 			
-			foreach( $options as $key => $value ) {
-				$needle = '%%__'.strtoupper($key).'__%%';
-				
-				$data = str_replace($needle, $value, $data);
-			}
+			$data_array = explode("\n\n---\n\n", $data, 2);
 			
-			$result = $data;
+			$header_handler = \Curator\Handler\Factory::getHandlerForMediaType(\Curator\Handler\YAML::getMediaType());
+			
+			$header_data = $header_handler->handleData($data_array[0]);
+			
+			$body_format = $header_data['format'];
+			
+			$body_handler = \Curator\Handler\Factory::getHandlerForMediaType($body_format);
+			
+			$body_data = $body_handler->handleData($data_array[1]);
+			
+			$result = array();
+			$result['header'] = $header_data;
+			$result['body'] = $body_data;
+			$result['body_raw'] = $data_array[1];
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not handle basic template data:');
-			Console::stderr('   '.$e->getMessage());
+			\Curator\Console::stderr('** Could not handle curd data:');
+			\Curator\Console::stderr('   '.$e->getMessage());
 			
 		}
 		

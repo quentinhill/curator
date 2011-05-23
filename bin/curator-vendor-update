@@ -7,8 +7,8 @@
  # file that was distributed with this source code.
  ##
 
-LIB=${0/%curator-third/}
+LIB=${0/%curator-vendor-update/}
 
-exec php -q ${LIB}curator-third.php "$@"
+exec php -q ${LIB}curator-vendor-update.php "$@"
 
 exit;

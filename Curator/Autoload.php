@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator;
 
 /**
  * Autoload class
  * 
- * @package		curator
- * @subpackage	autoload
+ * @package		Curator
+ * @subpackage	Core
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
 class Autoload
@@ -78,28 +78,28 @@ class Autoload
 	 */
 	private function __construct()
 	{
-		$this->setBaseDir(CURATOR_LIB_DIR);
+		$this->setBaseDir(CURATOR_APP_DIR);
 		
-		$this->addClassPathToRegistry('Curator\Application',			'application.class.php');
-		$this->addClassPathToRegistry('Curator\Autoload',				'autoload.class.php');
-		$this->addClassPathToRegistry('Curator\BasicTemplateHandler',	'handlers'.DS.'basictemplate.class.php');
-		$this->addClassPathToRegistry('Curator\Builder',				'builder.abstract.php');
-		$this->addClassPathToRegistry('Curator\Config',					'config.class.php');
-		$this->addClassPathToRegistry('Curator\Console',				'console.class.php');
-		$this->addClassPathToRegistry('Curator\CurdHandler',			'handlers'.DS.'curd.class.php');
-		$this->addClassPathToRegistry('Curator\DataBuilder',			'builders'.DS.'data.class.php');
-		$this->addClassPathToRegistry('Curator\Filesystem',				'filesystem.class.php');
-		$this->addClassPathToRegistry('Curator\Handler',				'handler.interface.php');
-		$this->addClassPathToRegistry('Curator\HandlerFactory',			'handlerfactory.class.php');
-		$this->addClassPathToRegistry('Curator\JavaScriptHandler',		'handlers'.DS.'javascript.class.php');
-		$this->addClassPathToRegistry('Curator\MarkdownHandler',		'handlers'.DS.'markdown.class.php');
-		$this->addClassPathToRegistry('Curator\MediaBuilder',			'builders'.DS.'media.class.php');
-		$this->addClassPathToRegistry('Curator\Project',				'project.class.php');
-		$this->addClassPathToRegistry('Curator\ScriptsBuilder',			'builders'.DS.'scripts.class.php');
-		$this->addClassPathToRegistry('Curator\StylesBuilder',			'builders'.DS.'styles.class.php');
-		$this->addClassPathToRegistry('Curator\StyleSheetHanlder',		'handlers'.DS.'stylesheet.class.php');
-		$this->addClassPathToRegistry('Curator\TemplateData',			'templatedata.class.php');
-		$this->addClassPathToRegistry('Curator\YamlHandler',			'handlers'.DS.'yaml.class.php');
+		$this->addClassPathToRegistry('Curator\Application',			'Curator'.DS.'Application.php');
+		$this->addClassPathToRegistry('Curator\Autoload',				'Curator'.DS.'Autoload.php');
+		$this->addClassPathToRegistry('Curator\Builder',				'Curator'.DS.'Builder.php');
+		$this->addClassPathToRegistry('Curator\Builder\Data',			'Curator'.DS.'Builder'.DS.'Data.php');
+		$this->addClassPathToRegistry('Curator\Builder\Media',			'Curator'.DS.'Builder'.DS.'Media.php');
+		$this->addClassPathToRegistry('Curator\Builder\Scripts',		'Curator'.DS.'Builder'.DS.'Scripts.php');
+		$this->addClassPathToRegistry('Curator\Builder\Styles',			'Curator'.DS.'Builder'.DS.'Styles.php');
+		$this->addClassPathToRegistry('Curator\Config',					'Curator'.DS.'Config.php');
+		$this->addClassPathToRegistry('Curator\Console',				'Curator'.DS.'Console.php');
+		$this->addClassPathToRegistry('Curator\FileSystem',				'Curator'.DS.'FileSystem.php');
+		$this->addClassPathToRegistry('Curator\Handler',				'Curator'.DS.'Handler.php');
+		$this->addClassPathToRegistry('Curator\Handler\CSS',			'Curator'.DS.'Handler'.DS.'CSS.php');
+		$this->addClassPathToRegistry('Curator\Handler\Curd',			'Curator'.DS.'Handler'.DS.'CURD.php');
+		$this->addClassPathToRegistry('Curator\Handler\Factory',		'Curator'.DS.'Handler'.DS.'Factory.php');
+		$this->addClassPathToRegistry('Curator\Handler\JavaScript',		'Curator'.DS.'Handler'.DS.'JavaScript.php');
+		$this->addClassPathToRegistry('Curator\Handler\Markdown',		'Curator'.DS.'Handler'.DS.'Markdown.php');
+		$this->addClassPathToRegistry('Curator\Handler\Template',		'Curator'.DS.'Handler'.DS.'Template.php');
+		$this->addClassPathToRegistry('Curator\Handler\YAML',			'Curator'.DS.'Handler'.DS.'YAML.php');
+		$this->addClassPathToRegistry('Curator\Project',				'Curator'.DS.'Project.php');
+		$this->addClassPathToRegistry('Curator\TemplateData',			'Curator'.DS.'TemplateData.php');
 	}
 	
 	/**

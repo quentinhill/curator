@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator\Handler;
 
 /**
- * JavaScriptHandler class
+ * StyleSheetHandler class
  * 
  * @package		curator
  * @subpackage	handlers
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class JavaScriptHandler implements Handler
+class CSS implements \Curator\Handler
 {
 	/**
      * Return the name of the Handler.
@@ -26,7 +26,7 @@ class JavaScriptHandler implements Handler
      */
 	public static function getName()
 	{
-		return 'JavaScriptHandler';
+		return 'CSS';
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class JavaScriptHandler implements Handler
      */
 	public static function getMediaType()
 	{
-		return 'text/javascript';
+		return 'text/css';
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class JavaScriptHandler implements Handler
      */
     public static function getExtensions()
 	{
-		return array('js', 'javascript');
+		return array('css');
 	}
 	
 	/**
@@ -71,7 +71,7 @@ class JavaScriptHandler implements Handler
 		
 		try {
 			
-			if( strpos($data, "\n") === false && is_file($data) ) {
+			if( strpos($data, NL) === false && is_file($data) ) {
 				$data = file_get_contents($data);
 				
 				if( $data === false ) {
@@ -79,16 +79,14 @@ class JavaScriptHandler implements Handler
 				}
 			}
 			
-			require_once CURATOR_THIRDPARTY_DIR.DS.'jsmin-php'.DS.'jsmin.php';
+			require_once CURATOR_APP_DIR.DS.'Vendors'.DS.'css-compressor'.DS.'src'.DS.'CSSCompression.php';
 			
-			if( $options['minify'] ) {
-				$result = \JSMin::minify($data);
-			}
+			$result = \CSSCompression::express($data, 'sane');
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not handle CSS data:');
-			Console::stderr('  '.$e->getMessage());
+			\Curator\Console::stderr('** Could not handle CSS data:');
+			\Curator\Console::stderr('  '.$e->getMessage());
 			
 		}
 		

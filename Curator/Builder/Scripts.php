@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator\Builder;
 
 /**
- * ScriptsBuilder class
+ * Script builder.
  * 
- * @package		curator
- * @subpackage	builders
+ * @package		Curator
+ * @subpackage	Builder
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class ScriptsBuilder extends Builder
+class Scripts extends \Curator\Builder
 {
 	/**
 	 * Build the scripts.
@@ -35,7 +35,7 @@ class ScriptsBuilder extends Builder
 		$script_options = $manifest['scripts'];
 		
 		if( isset($script_options['libraris']) ) {
-			Console::stdout(' Minifying libraries…');
+			\Curator\Console::stdout(' Minifying libraries…');
 			
 			foreach( $script_options['libraries'] as $filename ) {
 				$path = $project->getScriptsLibsDirPath().DS.$filename;
@@ -65,18 +65,18 @@ class ScriptsBuilder extends Builder
 				$output_size = filesize($out_path);
 				$a = sprintf('%d', (100 * ($output_size/$raw_size)));
 				
-				Console::stdout('  Wrote '.$out_rel.' ('.$a.'%)');
+				\Curator\Console::stdout('  Wrote '.$out_rel.' ('.$a.'%)');
 				
 				$lib_paths[$basename] = $out_url;
 			}
 			
-			TemplateData::setValue('scripts', 'libs', $lib_paths);
+			\Curator\TemplateData::setValue('scripts', 'libs', $lib_paths);
 			
-			Console::stdout('');
+			\Curator\Console::stdout('');
 		}
 		
 		if( isset($script_options['combine']) ) {
-			Console::stdout(' Minifying scripts…');
+			\Curator\Console::stdout(' Minifying scripts…');
 			
 			$script_data = null;
 			
@@ -85,7 +85,7 @@ class ScriptsBuilder extends Builder
 				$rel_path = str_replace($project->getProjectDirPath().DS, '', $path);
 				
 				$raw_size = filesize($path);
-				$script_data = $script_data."\n\n\n".file_get_contents($path);
+				$script_data = $script_data.NL.NL.NL.file_get_contents($path);
 			}
 			
 			$handler = HandlerFactory::getHandlerForMediaType('text/javascript');
@@ -108,10 +108,10 @@ class ScriptsBuilder extends Builder
 			$output_size = filesize($out_path);
 			$a = sprintf('%d', (100 * ($output_size/$raw_size)));
 			
-			Console::stdout('  Characters: '.strlen($script_data));
-			Console::stdout('  Wrote '.$out_rel.' ('.$a.'%)');
+			\Curator\Console::stdout('  Characters: '.strlen($script_data));
+			\Curator\Console::stdout('  Wrote '.$out_rel.' ('.$a.'%)');
 			
-			TemplateData::setValue('scripts', 'combined', $out_url);
+			\Curator\TemplateData::setValue('scripts', 'combined', $out_url);
 		}
 	}
 	
@@ -123,13 +123,13 @@ class ScriptsBuilder extends Builder
 	public function clean()
 	{
 		$dir = $this->project->getPublicScriptsDirPath();
-		$files = FileSystem::getDirectoryContents($dir, array('directories' => false));
+		$files = \Curator\FileSystem::getDirectoryContents($dir, array('directories' => false));
 		
 		foreach( $files as $path ) {
 			$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $path);
 			
 			if( file_exists($path) ) {
-				Console::stdout('  Deleting '.$rel_path);
+				\Curator\Console::stdout('  Deleting '.$rel_path);
 				
 				if( !unlink($path) ) {
 					throw new \Exception('Could not delete: '.$path);
@@ -138,13 +138,13 @@ class ScriptsBuilder extends Builder
 		}
 		
 		$dir = $this->project->getPublicScriptsLibsDirPath();
-		$files = FileSystem::getDirectoryContents($dir, array('directories' => false));
+		$files = \Curator\FileSystem::getDirectoryContents($dir, array('directories' => false));
 		
 		foreach( $files as $path ) {
 			$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $path);
 			
 			if( file_exists($path) ) {
-				Console::stdout('  Deleting '.$rel_path);
+				\Curator\Console::stdout('  Deleting '.$rel_path);
 				
 				if( !unlink($path) ) {
 					throw new \Exception('Could not delete: '.$path);

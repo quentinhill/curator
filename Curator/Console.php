@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator;
 
 /**
  * Console class
  * 
- * @package		curator
- * @subpackage	console
+ * @package		Curator
+ * @subpackage	Console
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
 class Console

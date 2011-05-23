@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator;
 
 /**
  * TemplateData class
  * 
- * @package		curator
- * @subpackage	teamplates
+ * @package		Curator
+ * @subpackage	Core
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
 class TemplateData
@@ -60,7 +60,7 @@ class TemplateData
 	{
 		$config = new Config();
 		
-		$this->data = $config->loadData(CURATOR_CONFIG_DIR.DS.'templatedata.yml');
+		$this->data = $config->loadData(CURATOR_APP_DIR.DS.'Config'.DS.'templatedata.yml');
 	}
 	
 	/**

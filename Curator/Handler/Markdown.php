@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
- namespace Curator;
+namespace Curator\Handler;
 
 /**
- * YamlHandler class
+ * MarkdownHandler class
  * 
  * @package		curator
  * @subpackage	handlers
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-class YamlHandler implements Handler
+class Markdown implements \Curator\Handler
 {
 	/**
      * Return the name of the Handler.
@@ -26,7 +26,7 @@ class YamlHandler implements Handler
      */
 	public static function getName()
 	{
-		return 'YamlHandler';
+		return 'Markdown';
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class YamlHandler implements Handler
      */
 	public static function getMediaType()
 	{
-		return 'text/yaml';
+		return 'text/markdown';
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class YamlHandler implements Handler
      */
     public static function getExtensions()
 	{
-		return array('yml', 'yaml');
+		return array('md', 'markdown');
 	}
 	
 	/**
@@ -61,32 +61,27 @@ class YamlHandler implements Handler
      */
 	public function handleData($data, $options = array())
 	{
-		include_once(CURATOR_THIRDPARTY_DIR.DS.'yaml'.DS.'lib'.DS.'sfYamlParser.php');
+		include_once(CURATOR_APP_DIR.DS.'Vendors'.DS.'php-markdown'.DS.'markdown.php');
+		include_once(CURATOR_APP_DIR.DS.'Vendors'.DS.'php-smartypants'.DS.'smartypants.php');
 		
-		$yaml = new \sfYamlParser();
 		$result = null;
 		
 		try {
 			
-			if( strpos($data, "\n") === false && is_file($data) ) {
+			if( strpos($data, NL) === false && is_file($data) ) {
 				$data = file_get_contents($data);
 				
 				if( $data === false ) {
-					throw new \Exception('Could not load yaml: '.$data);
+					throw new \Exception('Could not load file: '.$data);
 				}
 			}
 			
-			$result = $yaml->parse($data);
-			
-		} catch( \InvalidArgumentException $e ) {
-			
-			Console::stderr('** Unable to parse the YAML string:');
-			Console::stderr('   '.$e->getMessage());
+			$result = (\SmartyPants(\Markdown($data)));
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not handle YAML data:');
-			Console::stderr('  '.$e->getMessage());
+			\Curator\Console::stderr('** Could not handle Mardkwon data:');
+			\Curator\Console::stderr('   '.$e->getMessage());
 			
 		}
 		
