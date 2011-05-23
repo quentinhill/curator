@@ -58,10 +58,9 @@ class MediaBuilder extends Builder
 				$filename = pathinfo($file_path, PATHINFO_BASENAME);
 				$rel_path = str_replace($this->project->getProjectDirPath().DS, '', $file_path);
 				$out_path = $this->project->getPublicHtmlDirPath().DS.$rel_path;
-				$rel_out = str_replace($this->project->getProjectDirPath().DS, '', $out_path);
 				
 				if( !$this->shouldSkip($file_path) ) {
-					Console::stdout('  Copying '.$rel_path.' to '.$rel_out);
+					Console::stdout('  Copying '.$rel_path);
 					
 					if( !copy($file_path, $out_path) ) {
 						throw new \Exception('Could not copy '.$file_path.' to '.$out_path);
