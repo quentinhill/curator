@@ -37,15 +37,6 @@ class Autoload
 	private static $registeredCount = 0;
 	
 	/**
-	 * Classname -> path lookup table.
-	 * 
-	 * @var array
-	 * @access private
-	 * @static
-	 */
-	protected $classRegistry = array();
-	
-	/**
 	 * The base library directory.
 	 *
 	 * @var string
@@ -79,27 +70,6 @@ class Autoload
 	private function __construct()
 	{
 		$this->setBaseDir(CURATOR_APP_DIR);
-		
-		$this->addClassPathToRegistry('Curator\Application',			'Curator'.DS.'Application.php');
-		$this->addClassPathToRegistry('Curator\Autoload',				'Curator'.DS.'Autoload.php');
-		$this->addClassPathToRegistry('Curator\Builder',				'Curator'.DS.'Builder.php');
-		$this->addClassPathToRegistry('Curator\Builder\Data',			'Curator'.DS.'Builder'.DS.'Data.php');
-		$this->addClassPathToRegistry('Curator\Builder\Media',			'Curator'.DS.'Builder'.DS.'Media.php');
-		$this->addClassPathToRegistry('Curator\Builder\Scripts',		'Curator'.DS.'Builder'.DS.'Scripts.php');
-		$this->addClassPathToRegistry('Curator\Builder\Styles',			'Curator'.DS.'Builder'.DS.'Styles.php');
-		$this->addClassPathToRegistry('Curator\Config',					'Curator'.DS.'Config.php');
-		$this->addClassPathToRegistry('Curator\Console',				'Curator'.DS.'Console.php');
-		$this->addClassPathToRegistry('Curator\FileSystem',				'Curator'.DS.'FileSystem.php');
-		$this->addClassPathToRegistry('Curator\Handler',				'Curator'.DS.'Handler.php');
-		$this->addClassPathToRegistry('Curator\Handler\CSS',			'Curator'.DS.'Handler'.DS.'CSS.php');
-		$this->addClassPathToRegistry('Curator\Handler\Curd',			'Curator'.DS.'Handler'.DS.'CURD.php');
-		$this->addClassPathToRegistry('Curator\Handler\Factory',		'Curator'.DS.'Handler'.DS.'Factory.php');
-		$this->addClassPathToRegistry('Curator\Handler\JavaScript',		'Curator'.DS.'Handler'.DS.'JavaScript.php');
-		$this->addClassPathToRegistry('Curator\Handler\Markdown',		'Curator'.DS.'Handler'.DS.'Markdown.php');
-		$this->addClassPathToRegistry('Curator\Handler\Template',		'Curator'.DS.'Handler'.DS.'Template.php');
-		$this->addClassPathToRegistry('Curator\Handler\YAML',			'Curator'.DS.'Handler'.DS.'YAML.php');
-		$this->addClassPathToRegistry('Curator\Project',				'Curator'.DS.'Project.php');
-		$this->addClassPathToRegistry('Curator\TemplateData',			'Curator'.DS.'TemplateData.php');
 	}
 	
 	/**
@@ -188,60 +158,16 @@ class Autoload
 	 */
 	public function autoload($class)
 	{
-		if( $path = $this->getClassPathFromRegistry($class) ) {
-			require_once $this->baseDir.DS.$path;
+		$clean_class	= str_replace('\\', '/', $class);
+		$class_path		= $clean_class.'.php';
+		$full_path		= $this->baseDir.DS.$class_path;
+		
+		if( is_file($full_path) ) {
+			require_once $full_path;
 			
 			return true;
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * Adds $path to the registry under $class.
-	 * 
-	 * @param string $class The name of the class to add.
-	 * @param string $path The path to the class file.
-	 * @return void
-	 * @access public
-	 */
-	public function addClassPathToRegistry($class, $path)
-	{
-		$class = strval($class);
-		$path = strval($path);
-		
-		$this->classRegistry[$class] = $path;
-	}
-	
-	/**
-	 * Removes the entry for $class from the internal registry.
-	 * 
-	 * @param string $class The name of the class to remove.
-	 * @return void
-	 * @access public
-	 */
-	public function removeClassPathFromRegistry($class)
-	{
-		$class = strval($class);
-		
-		if( isset($this->classRegistry[$class]) ) {
-			$this->classRegistry[$class] = null;
-			unset($this->classRegistry[$class]);
-		}
-	}
-	
-	/**
-	 * Returns the absolute path of the supplied class, or null if there is no class registered.
-	 * 
-	 * @param string $class A class name
-	 * @return mixed An absolute path or null.
-	 */
-	public function getClassPathFromRegistry($class)
-	{
-		if( !isset($this->classRegistry[$class]) ) {
-			return null;
-		}
-		
-		return $this->classRegistry[$class];
 	}
 }
