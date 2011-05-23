@@ -4,5 +4,5 @@
 .project
 !.gitignore
 *.esproj
-third-party/*
-!third-party/.gitignore
+Vendors/*
+!Vendors/.gitignore
