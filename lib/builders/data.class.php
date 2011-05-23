@@ -97,10 +97,12 @@ class DataBuilder extends Builder
 			$substitutions['data_next_link']		= '';
 			$substitutions['data_prev_link']		= '';
 			
-			$libs = TemplateData::getValue('scripts', 'libs');
-			
-			foreach( $libs as $lib => $url ) {
-				$substitutions['scripts_libs_'.$lib] = $url;
+			if( TemplateData::getValue('scripts', 'libs') !== null ) {
+				$libs = TemplateData::getValue('scripts', 'libs');
+				
+				foreach( $libs as $lib => $url ) {
+					$substitutions['scripts_libs_'.$lib] = $url;
+				}
 			}
 			
 			if( TemplateData::getValue('data', 'next_link') !== null ) {
