@@ -7,16 +7,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Curator;
+namespace Curator\Config;
 
 /**
- * Config abstract class.
+ * YAML config.
  * 
  * @package		Curator
  * @subpackage	Config
  * @author		Quentin Hill <quentin@quentinhill.com>
  */
-abstract class Config
+class YAML extends \Curator\Config
 {
 	/**
      * Load $data.
@@ -25,5 +25,12 @@ abstract class Config
      * @return array
 	 * @access public
      */
-	abstract public function loadData($data);
+	public function loadData($data)
+	{
+		$handler = \Curator\Handler\Factory::getHandlerForMediaType(\Curator\Handler\YAML::getMediaType());
+		
+		$config = $handler->handleData($data);
+		
+		return $config;
+	}
 }

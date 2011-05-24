@@ -58,7 +58,7 @@ class TemplateData
 	 */
 	private function __construct() 
 	{
-		$config = new Config();
+		$config = new \Curator\Config\YAML();
 		
 		$this->data = $config->loadData(CURATOR_APP_DIR.DS.'Config'.DS.'templatedata.yml');
 	}
