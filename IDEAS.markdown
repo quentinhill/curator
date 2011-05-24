@@ -5,6 +5,7 @@ or options or features or whatever.
 
 ## Clean up Autoload. ##
 
+finished: 5/23/2011
 created: 5/21/2011
 tags: code-cleanup
 
