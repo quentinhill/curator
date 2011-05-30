@@ -18,6 +18,30 @@ namespace Curator;
  */
 abstract class Config
 {
+	public static function LoadFromFile($path)
+	{
+		$config = null;
+		$class = get_called_class();
+		
+		$config = new $class;
+		
+		$data = $config->input($path);
+		
+		return $data;
+	}
+	
+	public static function WriteToFile($data, $path)
+	{
+		$config = null;
+		$class = get_called_class();
+		
+		$config = new $class;
+		
+		$output = $config->output($data);
+		
+		file_put_contents($path, $output);
+	}
+	
 	/**
      * Load $data.
      * 
@@ -25,5 +49,13 @@ abstract class Config
      * @return array
 	 * @access public
      */
-	abstract public function loadData($data);
+	abstract public function input($data);
+	
+	/**
+     * Write $data.
+     * 
+	 * @param mixed Either the path to a file, or the raw data to load.
+	 * @access public
+     */
+	abstract public function output($data, $output);
 }

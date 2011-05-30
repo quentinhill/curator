@@ -59,7 +59,7 @@ class CSS implements \Curator\Handler
      * @return string
 	 * @access public
      */
-	public function handleData($data, $options = array())
+	public function input($data, $options = array())
 	{
 		$default_options = array(
 			'minify' => true,
@@ -91,5 +91,10 @@ class CSS implements \Curator\Handler
 		}
 		
 		return $result;
+	}
+	
+	public function output($data, $options = array())
+	{
+		
 	}
 }

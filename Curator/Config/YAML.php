@@ -25,11 +25,28 @@ class YAML extends \Curator\Config
      * @return array
 	 * @access public
      */
-	public function loadData($data)
+	public function input($data)
 	{
 		$handler = \Curator\Handler\Factory::getHandlerForMediaType(\Curator\Handler\YAML::getMediaType());
 		
-		$config = $handler->handleData($data);
+		$config = $handler->input($data);
+		
+		return $config;
+	}
+	
+	/**
+     * Write $data to $output.
+     * 
+	 * @param array The data to write.
+	 * @param string The path to write to.
+     * @return bool
+	 * @access public
+     */
+	public function output($data, $output)
+	{
+		$handler = \Curator\Handler\Factory::getHandlerForMediaType(\Curator\Handler\YAML::getMediaType());
+		
+		$config = $handler->input($data);
 		
 		return $config;
 	}

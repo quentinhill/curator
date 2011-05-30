@@ -59,7 +59,7 @@ class Template implements \Curator\Handler
      * @return string
 	 * @access public
      */
-	public function handleData($data, $options = array())
+	public function input($data, $options = array())
 	{
 		
 		$result = null;
@@ -84,12 +84,17 @@ class Template implements \Curator\Handler
 			
 		} catch( \Exception $e ) {
 			
-			Console::stderr('** Could not handle basic template data:');
-			Console::stderr('   '.$e->getMessage());
+			\Curator\Console::stderr('** Could not handle basic template data:');
+			\Curator\Console::stderr('   '.$e->getMessage());
 			
 		}
 		
 		return $result;
+	}
+	
+	public function output($data, $options = array())
+	{
+		
 	}
 }
 	

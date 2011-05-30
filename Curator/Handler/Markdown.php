@@ -59,7 +59,7 @@ class Markdown implements \Curator\Handler
      * @return string
 	 * @access public
      */
-	public function handleData($data, $options = array())
+	public function input($data, $options = array())
 	{
 		include_once(CURATOR_APP_DIR.DS.'Vendors'.DS.'php-markdown'.DS.'markdown.php');
 		include_once(CURATOR_APP_DIR.DS.'Vendors'.DS.'php-smartypants'.DS.'smartypants.php');
@@ -86,6 +86,11 @@ class Markdown implements \Curator\Handler
 		}
 		
 		return $result;
+	}
+	
+	public function output($data, $options = array())
+	{
+		
 	}
 }
 	

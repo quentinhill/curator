@@ -71,9 +71,7 @@ class Project
 		$this->projectDir = realpath($project_dir);
 		$this->skeletonDir = realpath($skeleton_dir);
 		
-		$config = new \Curator\Config\YAML();
-		
-		$this->skeletonConfig = $config->loadData(CURATOR_APP_DIR.DS.'Config'.DS.'skeleton.yml');
+		$this->skeletonConfig = \Curator\Config\YAML::LoadFromFile(CURATOR_APP_DIR.DS.'Config'.DS.'skeleton.yml');
 	}
 	
 	/**

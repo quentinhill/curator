@@ -46,11 +46,22 @@ interface Handler
 	public static function getExtensions();
 	
 	/**
-     * Handle $data, and return the results.
-     *
-     * @param string data The data to handle.
+     * Read any data stored in $data, using options in $options.
+	 * 
+     * @param string $data The data to read.
+	 * @param array $options The options for reading data.
      * @return string
 	 * @access public
      */
-	public function handleData($data, $options = array());
+	public function input($data, $options = array());
+	
+	/**
+     * Convert $data (using $options) for writing as a string.
+	 * 
+     * @param string $data The data to convert.
+	 * @param array $options The options for converting data.
+     * @return string
+	 * @access public
+     */
+	public function output($data, $options = array());
 }
