@@ -48,7 +48,7 @@ class Styles extends \Curator\Builder
 			
 			$handler = \Curator\Handler\Factory::getHandlerForMediaType('text/css');
 			
-			$css_data = $handler->handleData($css_data);
+			$css_data = $handler->input($css_data);
 			
 			$hash = hash('sha256', $css_data);
 			

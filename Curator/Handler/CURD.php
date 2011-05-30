@@ -78,13 +78,13 @@ class CURD implements \Curator\Handler
 			
 			$header_handler = \Curator\Handler\Factory::getHandlerForMediaType(\Curator\Handler\YAML::getMediaType());
 			
-			$header_data = $header_handler->handleData($data_array[0]);
+			$header_data = $header_handler->input($data_array[0]);
 			
 			$body_format = $header_data['format'];
 			
 			$body_handler = \Curator\Handler\Factory::getHandlerForMediaType($body_format);
 			
-			$body_data = $body_handler->handleData($data_array[1]);
+			$body_data = $body_handler->input($data_array[1]);
 			
 			$result = array();
 			$result['header'] = $header_data;

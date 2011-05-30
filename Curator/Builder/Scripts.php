@@ -46,7 +46,7 @@ class Scripts extends \Curator\Builder
 				$script_data = file_get_contents($path);
 				
 				$handler = HandlerFactory::getHandlerForMediaType('text/javascript');
-				$script_data = $handler->handleData($script_data);
+				$script_data = $handler->input($script_data);
 				
 				$hash = hash('sha256', $script_data);
 				
@@ -89,7 +89,7 @@ class Scripts extends \Curator\Builder
 			}
 			
 			$handler = HandlerFactory::getHandlerForMediaType('text/javascript');
-			$script_data = $handler->handleData($script_data);
+			$script_data = $handler->input($script_data);
 			
 			$hash = hash('sha256', $script_data);
 			

@@ -79,7 +79,7 @@ class CSS implements \Curator\Handler
 				}
 			}
 			
-			require_once CURATOR_APP_DIR.DS.'Vendors'.DS.'css-compressor'.DS.'src'.DS.'CSSCompression.php';
+			require_once CURATOR_APP_DIR.DS.'Vendors'.DS.'css-compressor'.DS.'dist'.DS.'src'.DS.'CSSCompression.php';
 			
 			$result = \CSSCompression::express($data, 'sane');
 			

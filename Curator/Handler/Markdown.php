@@ -61,8 +61,8 @@ class Markdown implements \Curator\Handler
      */
 	public function input($data, $options = array())
 	{
-		include_once(CURATOR_APP_DIR.DS.'Vendors'.DS.'php-markdown'.DS.'markdown.php');
-		include_once(CURATOR_APP_DIR.DS.'Vendors'.DS.'php-smartypants'.DS.'smartypants.php');
+		include_once(CURATOR_APP_DIR.DS.'Vendors'.DS.'php-markdown'.DS.'dist'.DS.'markdown.php');
+		include_once(CURATOR_APP_DIR.DS.'Vendors'.DS.'php-smartypants'.DS.'dist'.DS.'smartypants.php');
 		
 		$result = null;
 		

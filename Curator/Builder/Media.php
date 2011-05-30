@@ -34,9 +34,7 @@ class Media extends \Curator\Builder
 	 */
 	public function __construct()
 	{
-		$config = new \Curator\Config\YAML();
-		
-		$this->config = $config->loadData(CURATOR_APP_DIR.DS.'Config'.DS.'media.yml');
+		$this->config = \Curator\Config\YAML::LoadFromFile(CURATOR_APP_DIR.DS.'Config'.DS.'media.yml');
 	}
 	
 	/**

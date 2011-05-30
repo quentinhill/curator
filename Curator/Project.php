@@ -252,7 +252,7 @@ class Project
 			$ext = \Curator\Handler\Factory::getMediaTypeForFileExtension(pathinfo($manifest_path, PATHINFO_EXTENSION));
 			$handler = \Curator\Handler\Factory::getHandlerForMediaType($ext);
 			
-			$manifest = $handler->handleData($manifest_path);
+			$manifest = $handler->input($manifest_path);
 			
 			$this->manifest = $manifest;
 		}
@@ -383,9 +383,7 @@ class Project
 			throw new \Exception('Could not locate manifest at: '.$manifest_path);
 		}
 		
-		$config = new \Curator\Config\YAML();
-		
-		$manifest = $config->loadData($manifest_path);
+		$manifest =  \Curator\Config\YAML::LoadFromFile($manifest_path);
 		
 		\Curator\Console::stdout('Project Directory: '.$this->getProjectDirPath());
 		\Curator\Console::stdout('');
@@ -434,9 +432,7 @@ class Project
 			throw new \Exception('Could not locate manifest at: '.$manifest_path);
 		}
 		
-		$config = new Config();
-		
-		$manifest = $config->loadData($manifest_path);
+		$manifest = \Curator\Config\YAML::LoadFromFile($manifest_path);
 		
 		\Curator\Console::stdout('Project Directory: '.$this->getProjectDirPath());
 		\Curator\Console::stdout('');

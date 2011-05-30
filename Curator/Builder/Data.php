@@ -50,7 +50,7 @@ class Data extends \Curator\Builder
 			
 			// load the data file.
 			$handler	= \Curator\Handler\Factory::getHandlerForMediaType($data_media);
-			$data		= $handler->handleData($data_file);
+			$data		= $handler->input($data_file);
 			
 			// Stash the data stuff in the template data.
 			\Curator\TemplateData::setValue('data', 'title', $data['header']['title']);
@@ -130,7 +130,7 @@ class Data extends \Curator\Builder
 				$substitutions['data_prev_link']	= $link;
 			}
 			
-			$tmpl_data = $tmpl_handler->handleData($template_path, $substitutions);
+			$tmpl_data = $tmpl_handler->input($template_path, $substitutions);
 			
 			// See if the file specifies a special name, otherwise hack
 			// together something resembling the data's filename.
@@ -171,7 +171,7 @@ class Data extends \Curator\Builder
 			
 			// load the data file.
 			$handler	= \Curator\Handler\Factory::getHandlerForMediaType($data_media);
-			$data		= $handler->handleData($data_file);
+			$data		= $handler->input($data_file);
 			
 			// See if the file specifies a special name, otherwise hack
 			// together something resembling the data's filename.
