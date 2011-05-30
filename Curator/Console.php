@@ -56,7 +56,7 @@ class Console
 	 * @var string
 	 * @access public
 	 */
-	public $newline = "\n";
+	public $newline = NL;
 	
 	/**
 	 * Returns the shared Console.
