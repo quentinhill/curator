@@ -26,15 +26,11 @@ class Scripts extends \Curator\Builder
 	 */
 	public function build()
 	{
-		if( !isset($manifest['scripts']) ) {
-			return;
-		}
-		
 		$project = $this->getProject();
 		$manifest = $project->getManifestData();
 		$script_options = $manifest['scripts'];
 		
-		if( isset($script_options['libraris']) ) {
+		if( isset($script_options['libraries']) ) {
 			\Curator\Console::stdout(' Minifying libraries…');
 			
 			foreach( $script_options['libraries'] as $filename ) {
@@ -88,7 +84,7 @@ class Scripts extends \Curator\Builder
 				$script_data = $script_data.NL.NL.NL.file_get_contents($path);
 			}
 			
-			$handler = HandlerFactory::getHandlerForMediaType('text/javascript');
+			$handler = \Curator\Handler\Factory::getHandlerForMediaType('text/javascript');
 			$script_data = $handler->input($script_data);
 			
 			$hash = hash('sha256', $script_data);
@@ -108,7 +104,6 @@ class Scripts extends \Curator\Builder
 			$output_size = filesize($out_path);
 			$a = sprintf('%d', (100 * ($output_size/$raw_size)));
 			
-			\Curator\Console::stdout('  Characters: '.strlen($script_data));
 			\Curator\Console::stdout('  Wrote '.$out_rel.' ('.$a.'%)');
 			
 			\Curator\TemplateData::setValue('scripts', 'combined', $out_url);

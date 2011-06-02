@@ -79,7 +79,7 @@ class JavaScript implements \Curator\Handler
 				}
 			}
 			
-			require_once CURATOR_APP_DIR.DS.'Curator'.DS.'Vendors'.DS.'jsmin-php'.DS.'dist'.DS.'jsmin.php';
+			require_once CURATOR_APP_DIR.DS.DS.'Vendors'.DS.'jsmin-php'.DS.'dist'.DS.'jsmin.php';
 			
 			if( $options['minify'] ) {
 				$result = \JSMin::minify($data);

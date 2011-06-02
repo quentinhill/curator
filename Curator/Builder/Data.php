@@ -110,6 +110,16 @@ class Data extends \Curator\Builder
 			$substitutions['data_next_link']		= '';
 			$substitutions['data_prev_link']		= '';
 			
+			$script_libs = \Curator\TemplateData::getValue('scripts', 'libs');
+			
+			if( $script_libs ) {
+				foreach( $script_libs as $script_lib => $url ) {
+					$key = 'scripts_libs_'.$script_lib.'_url';
+					
+					$substitutions[$key] = $url;
+				}
+			}
+			
 			if( \Curator\TemplateData::getValue('scripts', 'libs') !== null ) {
 				$libs = \Curator\TemplateData::getValue('scripts', 'libs');
 				
