@@ -44,6 +44,7 @@ fwrite($stdout, 'This will install or update the following third party packages'
 fwrite($stdout, 'for Curator:'.NL);
 fwrite($stdout, ' * CSS-Compressor'.NL);
 fwrite($stdout, ' * JSMin PHP'.NL);
+fwrite($stdout, ' * lessphp'.NL);
 fwrite($stdout, ' * PHP Markdown with Extras'.NL);
 fwrite($stdout, ' * PHP SmartyPants Typographer'.NL);
 fwrite($stdout, ' * YAML'.NL);
@@ -53,6 +54,7 @@ fwrite($stdout, ''.NL);
 $third_party_dirs = array(
 	'css-compressor'	=> 'git://github.com/codenothing/css-compressor.git',
 	'jsmin-php'			=> 'git://github.com/rgrove/jsmin-php.git',
+	'lessphp'			=> 'git://github.com/leafo/lessphp.git',
 	'php-markdown'		=> 'http://git.michelf.com/php-markdown',
 	'php-smartypants'	=> 'http://git.michelf.com/php-smartypants',
 	'yaml'				=> 'git://github.com/fabpot/yaml.git',
