@@ -62,7 +62,7 @@ class YAML implements \Curator\Handler
      */
 	public function input($data, $options = array())
 	{
-		include_once CURATOR_APP_DIR.DS.'Vendors'.DS.'yaml'.DS.'dist'.DS.'lib'.DS.'sfYamlParser.php';
+		include_once CURATOR_APP_DIR.DS.'Vendors'.DS.'yaml'.DS.'lib'.DS.'sfYamlParser.php';
 		
 		$yaml = new \sfYamlParser();
 		$result = null;
